@@ -1,4 +1,4 @@
-import { apiClient, setAccessToken, getAccessToken } from './client';
+import { apiClient, setAccessToken, getAccessToken, isTimeoutError } from './client';
 
 export interface LoginCredentials {
   email: string;
@@ -32,7 +32,14 @@ export const authApi = {
         // Server responded with error
         throw error;
       } else if (error.request) {
-        // Request made but no response (network error)
+        // No response. A timeout means the request was still in flight -- the
+        // demo API is on a free tier that cold-starts after idling -- which is
+        // a different situation from the server refusing the connection.
+        if (isTimeoutError(error)) {
+          throw new Error(
+            'The demo backend is waking up from sleep. This can take up to a minute -- please try again shortly.'
+          );
+        }
         throw new Error('Network error. Please check if the backend is running.');
       } else {
         // Something else happened
@@ -61,7 +68,14 @@ export const authApi = {
         // Server responded with error
         throw error;
       } else if (error.request) {
-        // Request made but no response (network error)
+        // No response. A timeout means the request was still in flight -- the
+        // demo API is on a free tier that cold-starts after idling -- which is
+        // a different situation from the server refusing the connection.
+        if (isTimeoutError(error)) {
+          throw new Error(
+            'The demo backend is waking up from sleep. This can take up to a minute -- please try again shortly.'
+          );
+        }
         throw new Error('Network error. Please check if the backend is running.');
       } else {
         // Something else happened

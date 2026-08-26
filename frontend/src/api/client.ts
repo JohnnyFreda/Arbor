@@ -13,8 +13,36 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 second timeout
+  // The demo API runs on a free tier that spins down when idle; a cold start
+  // can take ~60s. A short timeout here surfaces as a misleading "backend is
+  // not running" error, so allow enough headroom for the wake-up.
+  timeout: 90000,
 });
+
+/**
+ * Wake the API without blocking the UI.
+ *
+ * Free-tier hosting spins the service down after inactivity. Calling this as
+ * early as possible means the cold start overlaps with the user reading the
+ * page instead of beginning when they click. Safe to call more than once.
+ */
+let warmUpStarted = false;
+
+export const warmUpApi = (): void => {
+  if (warmUpStarted) return;
+  warmUpStarted = true;
+  const base = API_BASE || '';
+  void fetch(`${base}/health`, { method: 'GET', mode: 'cors' }).catch(() => {
+    // Best-effort only: a failure here just means the first real request pays
+    // the cold-start cost, which the timeout above already accommodates.
+  });
+};
+
+/** True when a request failed because it timed out rather than being refused. */
+export const isTimeoutError = (error: unknown): boolean => {
+  const e = error as { code?: string; message?: string };
+  return e?.code === 'ECONNABORTED' || /timeout/i.test(e?.message ?? '');
+};
 
 // Store access token in memory
 let accessToken: string | null = null;
