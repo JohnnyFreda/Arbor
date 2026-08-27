@@ -29,3 +29,6 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# local venv (the committed one was built on Windows)
+.venv/

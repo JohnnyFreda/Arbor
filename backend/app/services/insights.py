@@ -22,19 +22,18 @@ def calculate_streak(db: Session, user_id: int) -> int:
     today = date.today()
     yesterday = today - timedelta(days=1)
     
-    streak = 0
-    current_date = today
-    
-    # If today has an entry, start from today
-    # Otherwise, if yesterday has an entry, start from yesterday
+    # A streak is live if it reaches today, or if it ended yesterday and today
+    # simply has not been written yet.
     if today in dates:
-        check_date = today
+        current_date = today
     elif yesterday in dates:
-        check_date = yesterday
-        streak = 1
         current_date = yesterday
     else:
         return 0
+
+    # The loop below counts the starting day itself, so streak starts at zero;
+    # seeding it to 1 for the yesterday case double-counted that day.
+    streak = 0
     
     # Count consecutive days
     for entry_date in dates:
