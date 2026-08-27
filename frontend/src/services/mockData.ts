@@ -129,8 +129,8 @@ export const mockEntriesService = {
       const search = filters.search.toLowerCase();
       entries = entries.filter(
         (e) =>
-          e.title.toLowerCase().includes(search) ||
-          e.body.toLowerCase().includes(search)
+          (e.title ?? '').toLowerCase().includes(search) ||
+          (e.body ?? '').toLowerCase().includes(search)
       );
     }
 

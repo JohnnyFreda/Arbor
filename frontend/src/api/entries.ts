@@ -58,7 +58,13 @@ export interface EntryFilters {
   date_to?: string;
 }
 
-function normalizeEntry(raw: {
+/**
+ * The entry as the API actually sends it: nullable columns come back as null,
+ * not absent. Entry is the normalized shape the app works with, so the two are
+ * deliberately separate -- typing a response as Entry and then normalizing it
+ * claims the conversion has already happened.
+ */
+export interface RawEntry {
   id: number;
   user_id: number;
   project_id?: number | null;
@@ -72,7 +78,9 @@ function normalizeEntry(raw: {
   updated_at: string;
   tags?: Array<{ id: number; name: string }>;
   project?: { id: number; name: string; description?: string | null } | null;
-}): Entry {
+}
+
+function normalizeEntry(raw: RawEntry): Entry {
   return {
     id: raw.id,
     user_id: raw.user_id,
@@ -98,12 +106,12 @@ export const entriesApi = {
     if (filters?.search != null) params.search = filters.search;
     if (filters?.date_from != null) params.date_from = filters.date_from;
     if (filters?.date_to != null) params.date_to = filters.date_to;
-    const { data } = await apiClient.get<Entry[]>('/entries', { params });
+    const { data } = await apiClient.get<RawEntry[]>('/entries', { params });
     return Array.isArray(data) ? data.map(normalizeEntry) : [];
   },
 
   getById: async (id: number): Promise<Entry> => {
-    const { data } = await apiClient.get<Entry>(`/entries/${id}`);
+    const { data } = await apiClient.get<RawEntry>(`/entries/${id}`);
     return normalizeEntry(data);
   },
 
@@ -118,7 +126,7 @@ export const entriesApi = {
       project_id: data.project_id ?? null,
       tags: data.tags ?? [],
     };
-    const { data: created } = await apiClient.post<Entry>('/entries', body);
+    const { data: created } = await apiClient.post<RawEntry>('/entries', body);
     return normalizeEntry(created);
   },
 
@@ -132,7 +140,7 @@ export const entriesApi = {
     if (data.focus_score !== undefined) body.focus_score = data.focus_score;
     if (data.project_id !== undefined) body.project_id = data.project_id;
     if (data.tags !== undefined) body.tags = data.tags;
-    const { data: updated } = await apiClient.put<Entry>(`/entries/${id}`, body);
+    const { data: updated } = await apiClient.put<RawEntry>(`/entries/${id}`, body);
     return normalizeEntry(updated);
   },
 

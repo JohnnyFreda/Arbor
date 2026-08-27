@@ -85,9 +85,6 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
       ref={editorRef}
       className="w-full rounded-lg border border-gray-300 dark:border-gray-600 focus-within:ring-2 focus-within:ring-violet-500 focus-within:border-violet-500 dark:focus-within:ring-violet-500 dark:focus-within:border-violet-500 overflow-hidden"
       data-color-mode="light"
-      onPaste={(e) => {
-        // This will be handled by the useEffect listener
-      }}
     >
       <div className="mb-2 flex gap-2">
         <button
