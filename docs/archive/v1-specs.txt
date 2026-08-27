@@ -1,3 +1,21 @@
+============================================================
+SUPERSEDED — HISTORICAL REFERENCE ONLY
+============================================================
+This is the original v1 design document for DevDiary as a
+developer journal. It is retained for historical context.
+
+It no longer describes current product intent. DevDiary has
+since expanded into a developer operating workspace. See:
+
+  docs/decisions/005-diary-to-workspace.md   (why this changed)
+  docs/product/vision.md                     (current vision)
+  docs/roadmap/mvp.md                        (current scope)
+  docs/architecture/overview.md              (current architecture)
+
+Where this document and docs/ disagree, docs/ is authoritative.
+============================================================
+
+
 DEV DIARY APP — DESIGN DOCUMENT (FOR CURSOR)
 Version: 1.0
 Purpose:

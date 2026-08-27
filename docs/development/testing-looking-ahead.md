@@ -1,5 +1,8 @@
 # Testing Guide: Looking Ahead Feature
 
+Manual test steps for the existing diary "Looking Ahead" feature.
+For overall testing priorities and strategy, see [testing.md](testing.md).
+
 ## Quick Testing Steps
 
 ### Option 1: Manual Date Manipulation (Fastest)
