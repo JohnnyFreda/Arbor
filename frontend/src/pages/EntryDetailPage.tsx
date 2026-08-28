@@ -45,14 +45,14 @@ export default function EntryDetailPage() {
       <div className="flex justify-between items-center">
         <Link
           to="/entries"
-          className="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded"
+          className="text-moss-600 dark:text-moss-400 hover:text-moss-700 dark:hover:text-moss-300 focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded"
         >
           ← Back to entries
         </Link>
         <div className="flex gap-4">
           <Link
             to={`/entries/${id}/edit`}
-            className="px-4 py-2 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white rounded-lg transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+            className="px-4 py-2 bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white rounded-lg transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           >
             Edit
           </Link>
@@ -78,7 +78,7 @@ export default function EntryDetailPage() {
             <span>{new Date(entry.date).toLocaleDateString()}</span>
             <span>Mood: {entry.mood}/5</span>
             {entry.project && (
-              <span className="text-violet-600 dark:text-violet-400">
+              <span className="text-moss-600 dark:text-moss-400">
                 {entry.project.name}
               </span>
             )}

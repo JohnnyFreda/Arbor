@@ -33,7 +33,7 @@ function TaskRow({
         disabled={completeMutation.isPending}
         onChange={() => completeMutation.mutate()}
         aria-label={`Mark "${task.title}" done`}
-        className="mt-0.5 h-4 w-4 flex-shrink-0 rounded border-gray-300 dark:border-gray-600 text-violet-600 focus:ring-2 focus:ring-violet-500 disabled:opacity-50 cursor-pointer"
+        className="mt-0.5 h-4 w-4 flex-shrink-0 rounded border-gray-300 dark:border-gray-600 text-moss-600 focus:ring-2 focus:ring-moss-500 disabled:opacity-50 cursor-pointer"
       />
       <div className="min-w-0 flex-1">
         <p
@@ -133,7 +133,7 @@ export default function TodayWork() {
             Nothing open.{' '}
             <Link
               to="/inbox"
-              className="text-violet-600 dark:text-violet-400 hover:underline focus:outline-none focus:ring-2 focus:ring-violet-500 rounded"
+              className="text-moss-600 dark:text-moss-400 hover:underline focus:outline-none focus:ring-2 focus:ring-moss-500 rounded"
             >
               Sort the inbox
             </Link>{' '}

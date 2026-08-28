@@ -2,8 +2,18 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { insightsApi } from '../api/insights';
+import { useTheme } from '../context/ThemeContext';
+
+// Recharts styles SVG via props, so these cannot be Tailwind classes.
+// Keep them in step with the moss scale in tailwind.config.js.
+// moss-600 reads on a white card (3.05:1 -- above the 3:1 a graphic needs);
+// on the gray-800 dark card it only just clears, so dark mode uses moss-400
+// instead, which measures 5.51:1.
+const LINE_LIGHT = '#4d7c5f'; // moss-600
+const LINE_DARK = '#7fa88c';  // moss-400
 
 export default function MoodChart() {
+  const { theme } = useTheme();
   const { data, isLoading } = useQuery({
     queryKey: ['insights', 'mood-trend', 30],
     queryFn: () => insightsApi.getMoodTrend(30),
@@ -25,7 +35,7 @@ export default function MoodChart() {
         <p className="text-gray-600 dark:text-gray-400 mb-4">No data available yet. Add entries with mood to see your trend.</p>
         <Link
           to="/entries/new"
-          className="inline-flex items-center justify-center px-4 py-2 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white font-medium rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+          className="inline-flex items-center justify-center px-4 py-2 bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white font-medium rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
         >
           Create entry
         </Link>
@@ -51,7 +61,7 @@ export default function MoodChart() {
           <Line
             type="monotone"
             dataKey="average_mood"
-            stroke="#8b5cf6"
+            stroke={theme === 'dark' ? LINE_DARK : LINE_LIGHT}
             strokeWidth={2}
             dot={{ r: 4 }}
           />

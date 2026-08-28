@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ArborMark from '../components/ArborMark';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -31,7 +32,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <div className="max-w-md w-full space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow">
         <div>
-          <h2 className="text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+          <ArborMark className="h-12 w-12 mx-auto text-moss-600 dark:text-moss-400" />
+          <h2 className="mt-4 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
             Sign in to Arbor
           </h2>
         </div>
@@ -54,7 +56,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 dark:focus:ring-violet-500 dark:focus:border-violet-500"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-moss-500 focus:border-moss-500 dark:focus:ring-moss-500 dark:focus:border-moss-500"
                 placeholder="Email address"
               />
             </div>
@@ -70,7 +72,7 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 dark:focus:ring-violet-500 dark:focus:border-violet-500"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-moss-500 focus:border-moss-500 dark:focus:ring-moss-500 dark:focus:border-moss-500"
                 placeholder="Password"
               />
             </div>
@@ -80,7 +82,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 dark:focus:ring-offset-gray-900 disabled:opacity-50 transition-colors duration-200 active:scale-[0.98]"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-moss-500 dark:focus:ring-offset-gray-900 disabled:opacity-50 transition-colors duration-200 active:scale-[0.98]"
             >
               {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
@@ -89,7 +91,7 @@ export default function LoginPage() {
           <div className="text-center">
             <Link
               to="/register"
-              className="text-sm text-violet-600 dark:text-violet-400 hover:text-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded"
+              className="text-sm text-moss-600 dark:text-moss-400 hover:text-moss-500 focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded"
             >
               Don't have an account? Sign up
             </Link>
@@ -114,7 +116,7 @@ export default function LoginPage() {
               }
             }}
             disabled={isLoading}
-            className="w-full flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 dark:focus:ring-offset-gray-900 disabled:opacity-50 transition-colors duration-200 active:scale-[0.98]"
+            className="w-full flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-moss-500 dark:focus:ring-offset-gray-900 disabled:opacity-50 transition-colors duration-200 active:scale-[0.98]"
           >
             {isLoading ? 'Signing in...' : 'Continue as guest'}
           </button>

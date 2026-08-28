@@ -83,16 +83,16 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
   return (
     <div 
       ref={editorRef}
-      className="w-full rounded-lg border border-gray-300 dark:border-gray-600 focus-within:ring-2 focus-within:ring-violet-500 focus-within:border-violet-500 dark:focus-within:ring-violet-500 dark:focus-within:border-violet-500 overflow-hidden"
+      className="w-full rounded-lg border border-gray-300 dark:border-gray-600 focus-within:ring-2 focus-within:ring-moss-500 focus-within:border-moss-500 dark:focus-within:ring-moss-500 dark:focus-within:border-moss-500 overflow-hidden"
       data-color-mode="light"
     >
       <div className="mb-2 flex gap-2">
         <button
           type="button"
           onClick={() => setViewMode('edit')}
-          className={`px-3 py-1 text-sm rounded focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+          className={`px-3 py-1 text-sm rounded focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
             viewMode === 'edit'
-              ? 'bg-violet-600 text-white'
+              ? 'bg-moss-600 text-white'
               : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
           }`}
         >
@@ -101,9 +101,9 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
         <button
           type="button"
           onClick={() => setViewMode('preview')}
-          className={`px-3 py-1 text-sm rounded focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+          className={`px-3 py-1 text-sm rounded focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
             viewMode === 'preview'
-              ? 'bg-violet-600 text-white'
+              ? 'bg-moss-600 text-white'
               : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
           }`}
         >
@@ -112,9 +112,9 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
         <button
           type="button"
           onClick={() => setViewMode('split')}
-          className={`px-3 py-1 text-sm rounded focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+          className={`px-3 py-1 text-sm rounded focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
             viewMode === 'split'
-              ? 'bg-violet-600 text-white'
+              ? 'bg-moss-600 text-white'
               : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
           }`}
         >

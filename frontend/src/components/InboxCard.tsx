@@ -15,7 +15,7 @@ const TYPES: InterpretationType[] = ['task', 'blocker', 'idea', 'note', 'thought
 const ACTIONABLE: InterpretationType[] = ['task', 'blocker'];
 
 const TYPE_STYLES: Record<InterpretationType, string> = {
-  task: 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300',
+  task: 'bg-moss-100 text-moss-700 dark:bg-moss-500/15 dark:text-moss-300',
   blocker: 'bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300',
   idea: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300',
   note: 'bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300',
@@ -23,7 +23,7 @@ const TYPE_STYLES: Record<InterpretationType, string> = {
 };
 
 const inputClass =
-  'w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-violet-500 focus:border-violet-500';
+  'w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-moss-500 focus:border-moss-500';
 
 const fieldLabel =
   'block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1';
@@ -107,7 +107,7 @@ export default function InboxCard({ capture, projects, onResolved }: InboxCardPr
             type="button"
             onClick={() => interpretMutation.mutate()}
             disabled={busy}
-            className="inline-flex items-center gap-1 text-xs text-violet-600 dark:text-violet-400 hover:underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-violet-500 rounded"
+            className="inline-flex items-center gap-1 text-xs text-moss-600 dark:text-moss-400 hover:underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-moss-500 rounded"
           >
             <ArrowPathIcon className="h-3 w-3" />
             {interpretMutation.isPending ? 'Interpreting…' : 'Interpret'}
@@ -192,7 +192,7 @@ export default function InboxCard({ capture, projects, onResolved }: InboxCardPr
               type="button"
               onClick={saveEdits}
               disabled={busy}
-              className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white text-sm font-medium py-1.5 px-4 rounded-lg disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+              className="bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white text-sm font-medium py-1.5 px-4 rounded-lg disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
             >
               {decideMutation.isPending ? 'Saving…' : 'Save & accept'}
             </button>
@@ -200,7 +200,7 @@ export default function InboxCard({ capture, projects, onResolved }: InboxCardPr
               type="button"
               onClick={() => setEditing(false)}
               disabled={busy}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:underline py-1.5 px-2 rounded focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="text-sm text-gray-600 dark:text-gray-400 hover:underline py-1.5 px-2 rounded focus:outline-none focus:ring-2 focus:ring-moss-500"
             >
               Cancel
             </button>
@@ -246,7 +246,7 @@ export default function InboxCard({ capture, projects, onResolved }: InboxCardPr
               type="button"
               onClick={() => decideMutation.mutate({ status: 'accepted' })}
               disabled={busy}
-              className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white text-sm font-medium py-1.5 px-4 rounded-lg disabled:opacity-50 transition-colors active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+              className="bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white text-sm font-medium py-1.5 px-4 rounded-lg disabled:opacity-50 transition-colors active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
             >
               {decideMutation.isPending ? 'Saving…' : 'Accept'}
             </button>
@@ -254,7 +254,7 @@ export default function InboxCard({ capture, projects, onResolved }: InboxCardPr
               type="button"
               onClick={() => setEditing(true)}
               disabled={busy}
-              className="text-sm text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 py-1.5 px-4 rounded-lg disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="text-sm text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 py-1.5 px-4 rounded-lg disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-moss-500"
             >
               Edit
             </button>
@@ -262,7 +262,7 @@ export default function InboxCard({ capture, projects, onResolved }: InboxCardPr
               type="button"
               onClick={() => decideMutation.mutate({ status: 'dismissed' })}
               disabled={busy}
-              className="text-sm text-gray-500 dark:text-gray-400 hover:underline py-1.5 px-2 rounded disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="text-sm text-gray-500 dark:text-gray-400 hover:underline py-1.5 px-2 rounded disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-moss-500"
             >
               Dismiss
             </button>

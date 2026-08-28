@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import ArborMark from './ArborMark';
 import { Link } from 'react-router-dom';
 import { entriesApi, Entry } from '../api/entries';
 import Skeleton from './ui/Skeleton';
@@ -27,10 +28,11 @@ export default function RecentEntriesList() {
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Entries</h3>
       {recentEntries.length === 0 ? (
         <div className="text-center py-8">
+          <ArborMark className="h-10 w-10 mx-auto mb-3 text-moss-600/25 dark:text-moss-400/25" />
           <p className="text-gray-600 dark:text-gray-400 mb-2">No entries yet.</p>
           <Link
             to="/entries/new"
-            className="inline-flex items-center justify-center px-4 py-2 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white font-medium rounded-lg text-sm transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+            className="inline-flex items-center justify-center px-4 py-2 bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white font-medium rounded-lg text-sm transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           >
             Create your first entry
           </Link>
@@ -41,7 +43,7 @@ export default function RecentEntriesList() {
             <Link
               key={entry.id}
               to={`/entries/${entry.id}`}
-              className="block p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+              className="block p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">

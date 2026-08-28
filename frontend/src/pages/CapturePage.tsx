@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import ArborMark from '../components/ArborMark';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import CaptureBox from '../components/CaptureBox';
 import Skeleton from '../components/ui/Skeleton';
@@ -22,7 +23,7 @@ function relativeTime(iso: string): string {
 }
 
 const TYPE_STYLES: Record<string, string> = {
-  task: 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300',
+  task: 'bg-moss-100 text-moss-700 dark:bg-moss-500/15 dark:text-moss-300',
   blocker: 'bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300',
   idea: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300',
   note: 'bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300',
@@ -90,7 +91,7 @@ function StatusLine({ capture }: { capture: Capture }) {
         type="button"
         onClick={() => retryMutation.mutate()}
         disabled={retryMutation.isPending}
-        className="inline-flex items-center gap-1 text-violet-600 dark:text-violet-400 hover:underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-violet-500 rounded"
+        className="inline-flex items-center gap-1 text-moss-600 dark:text-moss-400 hover:underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-moss-500 rounded"
       >
         <ArrowPathIcon className="h-3 w-3" />
         {retryMutation.isPending ? 'Retrying…' : 'Interpret'}
@@ -139,9 +140,12 @@ export default function CapturePage() {
             <Skeleton className="h-5 w-2/3" />
           </div>
         ) : !captures?.length ? (
-          <p className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-            Nothing captured yet. The box above is the whole interface.
-          </p>
+          <div className="px-6 py-10 text-center">
+            <ArborMark className="h-10 w-10 mx-auto mb-3 text-moss-600/25 dark:text-moss-400/25" />
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Nothing captured yet. The box above is the whole interface.
+            </p>
+          </div>
         ) : (
           <ul className="divide-y divide-gray-100 dark:divide-gray-700/50">
             {captures.map((capture) => (

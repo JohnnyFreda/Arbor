@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { calendarApi, CalendarDay } from '../api/calendar';
@@ -103,7 +104,7 @@ export default function CalendarPage() {
               onClick={goToPreviousMonth}
               className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
             >
-              ←
+              <ChevronLeftIcon className="h-5 w-5" />
             </button>
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               {monthNames[month - 1]} {year}
@@ -112,12 +113,12 @@ export default function CalendarPage() {
               onClick={goToNextMonth}
               className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
             >
-              →
+              <ChevronRightIcon className="h-5 w-5" />
             </button>
           </div>
             <button
               onClick={goToToday}
-              className="px-4 py-2 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+              className="px-4 py-2 bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             >
               Today
             </button>
@@ -221,7 +222,7 @@ export default function CalendarPage() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">No entries for this date.</p>
               <Link
                 to="/entries/new"
-                className="inline-flex items-center justify-center px-4 py-2 bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white font-medium rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                className="inline-flex items-center justify-center px-4 py-2 bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white font-medium rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
               >
                 Add entry
               </Link>

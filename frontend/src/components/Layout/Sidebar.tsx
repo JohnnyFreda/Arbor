@@ -10,6 +10,7 @@ import {
   Bars3Icon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
+import ArborMark from '../ArborMark';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
@@ -39,18 +40,23 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
       }`}
     >
       <div className="p-4 flex items-center justify-between">
-        <h1
-          className={`text-2xl font-bold text-gray-900 dark:text-white transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap ${
+        {/* The wordmark collapses away with the rail; the mark deliberately
+            does not, so a collapsed sidebar still has a brand anchor. */}
+        <div className="flex items-center min-w-0">
+          <ArborMark className="h-7 w-7 flex-shrink-0 text-moss-600 dark:text-moss-400" />
+          <h1
+          className={`ml-2 text-2xl font-bold text-gray-900 dark:text-white transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap ${
             isCollapsed
               ? 'max-w-0 opacity-0'
               : 'max-w-[200px] opacity-100'
           }`}
         >
-          Arbor
-        </h1>
+            Arbor
+          </h1>
+        </div>
         <button
           onClick={onToggle}
-          className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+          className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           aria-label="Toggle sidebar"
         >
           <Bars3Icon className="h-6 w-6" />
@@ -69,8 +75,8 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
                 isCollapsed ? 'justify-center px-2' : 'px-4'
               } py-3.5 text-sm font-medium transition-all duration-300 relative border-l-2 ${
                 isActive
-                  ? 'bg-violet-500/10 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-600'
-                  : 'border-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800'
+                  ? 'bg-moss-500/10 dark:bg-moss-500/10 text-moss-600 dark:text-moss-400 border-moss-600'
+                  : 'border-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800'
               }`}
               title={isCollapsed ? item.name : undefined}
             >

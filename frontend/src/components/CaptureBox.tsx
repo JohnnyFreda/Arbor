@@ -147,7 +147,7 @@ export default function CaptureBox({ autoFocus = false, onCaptured }: CaptureBox
           autoFocus={autoFocus}
           rows={4}
           placeholder="A bug hypothesis, a blocker, something to remember tomorrow…"
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-y focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-y focus:ring-2 focus:ring-moss-500 focus:border-moss-500"
         />
 
         <div className="mt-3 flex items-center justify-between gap-4">
@@ -183,7 +183,7 @@ export default function CaptureBox({ autoFocus = false, onCaptured }: CaptureBox
             <button
               type="submit"
               disabled={!canSubmit || overLimit}
-              className="bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white font-medium py-2 px-5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+              className="bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white font-medium py-2 px-5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             >
               {createMutation.isPending ? 'Saving…' : 'Capture'}
             </button>

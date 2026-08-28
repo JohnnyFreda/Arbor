@@ -59,7 +59,7 @@ export default function SmallCalendar() {
         </h3>
         <Link
           to="/calendar"
-          className="text-sm text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded"
+          className="text-sm text-moss-600 dark:text-moss-400 hover:text-moss-700 dark:hover:text-moss-300 transition-colors focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 rounded"
         >
           View Full
         </Link>
@@ -79,20 +79,20 @@ export default function SmallCalendar() {
             key={index}
             className={`aspect-square p-1 text-xs border border-gray-200 dark:border-gray-700 rounded-lg ${
               day ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700' : ''
-            } ${day && isToday(day.date) ? 'ring-2 ring-violet-500' : ''} ${day ? getMoodColor(day.average_mood) : ''}`}
+            } ${day && isToday(day.date) ? 'ring-2 ring-moss-500' : ''} ${day ? getMoodColor(day.average_mood) : ''}`}
             title={day ? `${day.date}: ${day.entry_count} ${day.entry_count === 1 ? 'entry' : 'entries'}` : ''}
           >
             {day && (
               <div className="flex flex-col items-center justify-center h-full">
                 <div className={`text-xs font-medium ${
                   isToday(day.date) 
-                    ? 'text-violet-600 dark:text-violet-400 font-bold' 
+                    ? 'text-moss-600 dark:text-moss-400 font-bold' 
                     : 'text-gray-900 dark:text-white'
                 }`}>
                   {new Date(day.date).getDate()}
                 </div>
                 {day.entry_count > 0 && (
-                  <div className="w-1 h-1 rounded-full bg-violet-500 mt-0.5" />
+                  <div className="w-1 h-1 rounded-full bg-moss-500 mt-0.5" />
                 )}
               </div>
             )}

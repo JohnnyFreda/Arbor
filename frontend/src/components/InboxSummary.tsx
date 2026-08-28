@@ -43,7 +43,7 @@ export default function InboxSummary() {
           </p>
           <Link
             to="/inbox"
-            className="mt-3 inline-block text-sm font-medium text-violet-600 dark:text-violet-400 hover:underline focus:outline-none focus:ring-2 focus:ring-violet-500 rounded"
+            className="mt-3 inline-block text-sm font-medium text-moss-600 dark:text-moss-400 hover:underline focus:outline-none focus:ring-2 focus:ring-moss-500 rounded"
           >
             Review →
           </Link>
