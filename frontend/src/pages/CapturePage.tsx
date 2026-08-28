@@ -4,6 +4,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import CaptureBox from '../components/CaptureBox';
 import Skeleton from '../components/ui/Skeleton';
 import { capturesApi, Capture, ProcessingStatus } from '../api/captures';
+import { typeStyle } from '../lib/badgeStyles';
 
 /** Statuses that are still moving, so the list should keep checking. */
 const IN_FLIGHT: ProcessingStatus[] = ['pending', 'processing'];
@@ -22,14 +23,6 @@ function relativeTime(iso: string): string {
   return new Date(iso).toLocaleDateString();
 }
 
-const TYPE_STYLES: Record<string, string> = {
-  task: 'bg-moss-100 text-moss-700 dark:bg-moss-500/15 dark:text-moss-300',
-  blocker: 'bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300',
-  idea: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300',
-  note: 'bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300',
-  thought: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300',
-};
-
 function StatusLine({ capture }: { capture: Capture }) {
   const queryClient = useQueryClient();
 
@@ -45,7 +38,7 @@ function StatusLine({ capture }: { capture: Capture }) {
       <div className="flex flex-wrap items-center gap-2 text-xs">
         <span
           className={`px-2 py-0.5 rounded-full font-medium ${
-            TYPE_STYLES[interpretation.type] ?? TYPE_STYLES.thought
+            typeStyle(interpretation.type)
           }`}
         >
           {interpretation.type}

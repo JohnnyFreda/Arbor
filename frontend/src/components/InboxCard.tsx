@@ -8,19 +8,12 @@ import {
 } from '../api/captures';
 import { interpretationsApi, InterpretationDecision } from '../api/interpretations';
 import { Project } from '../api/projects';
+import { TYPE_STYLES } from '../lib/badgeStyles';
 
 const TYPES: InterpretationType[] = ['task', 'blocker', 'idea', 'note', 'thought'];
 
 /** Types that become a Task when accepted. See ADR-006. */
 const ACTIONABLE: InterpretationType[] = ['task', 'blocker'];
-
-const TYPE_STYLES: Record<InterpretationType, string> = {
-  task: 'bg-moss-100 text-moss-700 dark:bg-moss-500/15 dark:text-moss-300',
-  blocker: 'bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300',
-  idea: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300',
-  note: 'bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300',
-  thought: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300',
-};
 
 const inputClass =
   'w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-moss-500 focus:border-moss-500';
