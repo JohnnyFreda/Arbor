@@ -30,9 +30,10 @@ jobs:
       - run: pip install -r requirements.txt
         working-directory: backend
 
-      # Seeds are written against the models at HEAD, so the schema has to get
-      # there first. Without this the job fails the moment a migration lands
-      # that production has not had applied.
+      # Belt and braces. The Render start command migrates on deploy, so this
+      # is normally a no-op -- but seeds are written against the models at
+      # HEAD, and this job must not run against an older schema if a deploy
+      # has not happened yet.
       - run: alembic upgrade head
         working-directory: backend
         env:

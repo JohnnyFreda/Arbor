@@ -173,7 +173,7 @@ The live demo uses a fully free stack:
 | Component | Service | Notes |
 |-----------|---------|--------|
 | Frontend | [Vercel](https://vercel.com) | Root directory: `frontend`. Env: `VITE_API_URL` = backend URL. |
-| Backend | [Render](https://render.com) | Web Service, root: `backend`. Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Python 3.12 (`runtime.txt`). |
+| Backend | [Render](https://render.com) | Web Service, root: `backend`. Start: `alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Python 3.12 (`runtime.txt`). |
 | Database | [Neon](https://neon.tech) | PostgreSQL. Connection string as `DATABASE_URL` on Render. |
 
 **Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://dev-diary-psi.vercel.app`).
@@ -181,6 +181,11 @@ The live demo uses a fully free stack:
 **Frontend env (Vercel):** `VITE_API_URL` = your Render backend URL only (no path, no trailing slash).
 
 Push to `main` to trigger automatic redeploys on both Vercel and Render.
+
+The backend runs `alembic upgrade head` before starting, so a deploy carrying a
+migration applies it. This is load-bearing: without it, code that reads a new
+column ships while the column does not exist yet, and every request touching it
+returns 500 until something else migrates the database.
 
 ## License
 
