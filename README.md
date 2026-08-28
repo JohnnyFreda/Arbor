@@ -10,9 +10,11 @@ Arbor began as a developer journal and is expanding into a persistent workspace 
 
 ## Live Demo
 
-**[Try the app →](https://arbor-psi.vercel.app)**
+**[Try the app →](https://dev-diary-psi.vercel.app)**
 
 Use **Continue as guest** to explore without signing up. The demo may take a moment to load after inactivity (free-tier backend spin-up).
+
+The deployment is still named `dev-diary`; renaming it changes a live URL and is sequenced separately. See [ADR-007](docs/decisions/007-rename-to-arbor.md).
 
 ## Status
 
@@ -174,7 +176,7 @@ The live demo uses a fully free stack:
 | Backend | [Render](https://render.com) | Web Service, root: `backend`. Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Python 3.12 (`runtime.txt`). |
 | Database | [Neon](https://neon.tech) | PostgreSQL. Connection string as `DATABASE_URL` on Render. |
 
-**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://arbor-psi.vercel.app`).
+**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://dev-diary-psi.vercel.app`).
 
 **Frontend env (Vercel):** `VITE_API_URL` = your Render backend URL only (no path, no trailing slash).
 

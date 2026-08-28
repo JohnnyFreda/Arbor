@@ -10,6 +10,11 @@ and do not remove the diary domain — it is retained deliberately. See
 
 Superseded documents live in `docs/archive/`. They are historical reference, not authority.
 
+Arbor was previously called DevDiary. The old name still appears in `docs/decisions/`
+and `docs/archive/` on purpose — an ADR records what was decided and when, and
+rewriting it would invent a history where the name was always Arbor. That is not an
+oversight to clean up. See `docs/decisions/007-rename-to-arbor.md`.
+
 ## Before implementing features
 
 Read:
