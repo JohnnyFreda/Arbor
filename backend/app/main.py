@@ -4,7 +4,7 @@ import logging
 from app.core.config import settings
 from app.api import (
     auth, entries, projects, tags, calendar, insights, captures,
-    interpretations, tasks,
+    interpretations, tasks, reviews,
 )
 
 # Configure logging
@@ -42,6 +42,7 @@ app.include_router(insights.router, prefix="/api/v1/insights", tags=["insights"]
 app.include_router(captures.router, prefix="/api/v1/captures", tags=["captures"])
 app.include_router(interpretations.router, prefix="/api/v1/interpretations", tags=["interpretations"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["tasks"])
+app.include_router(reviews.router, prefix="/api/v1/reviews", tags=["reviews"])
 
 
 @app.get("/")
