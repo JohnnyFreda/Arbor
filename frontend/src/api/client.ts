@@ -1,7 +1,8 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 // Use relative path to leverage Vite proxy (avoids CORS issues)
-// The proxy in vite.config.ts forwards /api to http://localhost:8000
+// The proxy in vite.config.ts forwards /api to the backend (ARBOR_API_PORT,
+// default 8420)
 // If VITE_API_URL is set to a full URL, use it directly (for production)
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const API_URL = API_BASE ? `${API_BASE}/api/v1` : '/api/v1';

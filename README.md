@@ -93,10 +93,10 @@ alembic upgrade head
 
 5. Start the development server:
 ```bash
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8420
 ```
 
-The API will be available at `http://localhost:8000`
+The API will be available at `http://localhost:8420`. The port is 8420 rather than the usual 8000 to stay out of the way of other projects; set `ARBOR_API_PORT` to change it, and give the same value to both uvicorn and the Vite dev server, which proxies to it.
 
 ### Frontend Setup
 
@@ -153,8 +153,8 @@ The app will be available at `http://localhost:5173`. With the backend running a
 ## API Documentation
 
 Once the backend server is running, visit:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
+- Swagger UI: `http://localhost:8420/docs`
+- ReDoc: `http://localhost:8420/redoc`
 
 ## Testing
 
