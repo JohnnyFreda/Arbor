@@ -33,7 +33,7 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
 
   return (
     <div
-      className={`flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out overflow-hidden ${
+      className={`flex flex-col bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out overflow-hidden ${
         isCollapsed 
           ? 'w-16' 
           : 'w-[191px] sm:w-48 md:w-52 lg:w-56 xl:w-60 2xl:w-64'
