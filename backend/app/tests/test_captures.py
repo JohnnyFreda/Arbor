@@ -22,10 +22,8 @@ class _StubInterpreter:
     def __init__(self, proposal=None, error=None):
         self._proposal = proposal
         self._error = error
-        self.seen_projects = None
 
-    def interpret(self, content, projects=()):
-        self.seen_projects = list(projects)
+    def interpret(self, content):
         if self._error:
             raise self._error
         return self._proposal
@@ -333,31 +331,50 @@ def test_delete_capture_removes_its_interpretation(
     ).count() == 0
 
 
-def test_interpreter_is_offered_only_the_users_own_projects(
+def test_a_capture_is_matched_only_against_its_owners_projects(
     auth_headers, make_user, monkeypatch, db
 ):
-    """Project context is scoped, so the model cannot name someone else's."""
+    """Association is scoped, so a capture cannot land on someone else's project.
+
+    The interpreter is no longer given project ids at all, so the risk moved
+    from the prompt to the matcher -- which only ever queries the capture
+    owner's rows. Named here so a future change to that query trips a test.
+    """
     from app.db.models.project import Project
     from app.db.models.user import User
 
     me = db.query(User).filter(
         User.id == client.get("/api/v1/auth/me", headers=auth_headers).json()["id"]
     ).one()
-    mine = Project(user_id=me.id, name="My Project")
     other_user, _ = make_user()
-    theirs = Project(user_id=other_user.id, name="Their Project")
-    db.add_all([mine, theirs])
+    # Only the other account owns a project by this name.
+    db.add(Project(user_id=other_user.id, name="Nebula"))
     db.commit()
 
     stub = _StubInterpreter(ProposedInterpretation(type="note", confidence=0.5))
     monkeypatch.setattr(interpretation_service, "get_interpreter", lambda: stub)
 
-    client.post(
-        "/api/v1/captures", json={"content": "which project?"}, headers=auth_headers
-    )
+    capture_id = client.post(
+        "/api/v1/captures", json={"content": "the nebula deploy failed"},
+        headers=auth_headers,
+    ).json()["id"]
 
-    names = {p.name for p in stub.seen_projects}
-    assert names == {"My Project"}
+    served = client.get(
+        f"/api/v1/captures/{capture_id}", headers=auth_headers
+    ).json()["interpretation"]
+    assert served["suggested_project_id"] is None
+
+    # And it does match once the capture's own owner has that project.
+    db.add(Project(user_id=me.id, name="Nebula"))
+    db.commit()
+    mine_id = client.post(
+        "/api/v1/captures", json={"content": "the nebula deploy failed"},
+        headers=auth_headers,
+    ).json()["id"]
+    matched = client.get(
+        f"/api/v1/captures/{mine_id}", headers=auth_headers
+    ).json()["interpretation"]
+    assert matched["suggested_project_id"] is not None
 
 
 def test_local_provider_confidence_does_not_reach_the_client(
@@ -370,7 +387,7 @@ def test_local_provider_confidence_does_not_reach_the_client(
         name = "qwen2.5:3b"
         confidence_is_calibrated = False
 
-        def interpret(self, content, projects=()):
+        def interpret(self, content):
             return ProposedInterpretation(type="note", confidence=0.9)
 
     monkeypatch.setattr(interpretation_service, "get_interpreter", lambda: _LocalStub())

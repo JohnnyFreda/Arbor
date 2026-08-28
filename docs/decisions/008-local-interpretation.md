@@ -112,10 +112,14 @@ Negative:
   anything later needs it. Clients are never asked to judge whether a number is
   trustworthy.
 - **Project association does not work well from a small model.** It either assigned the
-  wrong project or abstained on every capture depending on prompt wording. This is likely
-  the wrong job for a language model at all: "tour search endpoint" maps to Tourify by
-  substring match against project names and descriptions, which no model is needed for.
-  Treat project association as a separate, non-AI problem.
+  wrong project or abstained on every capture depending on prompt wording. Resolved by
+  taking the job away from the model entirely: `services/project_matching.py` scores the
+  capture's words against project names and descriptions, and the field is gone from the
+  schema and both prompts, so no interpreter can name a project at all. It behaves
+  identically for every provider, costs nothing, and can be reasoned about when it is
+  wrong. A lone description word abstains on purpose — nothing cheap separates a product
+  name from a generic noun, and a missing association is easier to notice and fix than a
+  confident wrong one.
 - Two prompt targets to maintain, and they will drift apart deliberately.
 - Ollama is an external process that can be absent or unloaded. Covered by the existing
   `failed` path, but it is now a supported configuration breakable from outside the app.
@@ -143,13 +147,10 @@ this design depends on.
 
 ## Follow-up work
 
-Done: confidence is withheld from the API until the provider earns it
-(`d5a90c1f7b42`).
+Done:
 
-Outstanding:
-
-- Move project association out of the model and into lexical matching against project names
-  and descriptions, for every provider.
+- Confidence is withheld from the API until the provider earns it (`d5a90c1f7b42`).
+- Project association moved out of the model into lexical matching.
 - Re-run this measurement against Claude on the same nine captures. The local numbers have
   nothing to be compared to yet.
 - Grow the capture set beyond nine before treating any of this as a regression test.

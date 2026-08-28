@@ -21,7 +21,7 @@ class _StubInterpreter:
     def __init__(self, proposal):
         self._proposal = proposal
 
-    def interpret(self, content, projects=()):
+    def interpret(self, content):
         return self._proposal
 
 

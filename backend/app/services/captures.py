@@ -18,6 +18,7 @@ from app.db.models.project import Project
 from app.db.session import SessionLocal
 from app.schemas.capture import CaptureCreate
 from app.services import interpretation as interpretation_service
+from app.services.project_matching import match_project
 
 logger = logging.getLogger(__name__)
 
@@ -109,9 +110,7 @@ def run_interpretation(capture_id: int) -> None:
         db.commit()
 
         try:
-            proposal = interpreter.interpret(
-                capture.content, _project_refs(db, capture.user_id)
-            )
+            proposal = interpreter.interpret(capture.content)
         except Exception:
             logger.exception(
                 "Interpretation failed for capture %s; capture preserved", capture_id
@@ -139,38 +138,27 @@ def run_interpretation(capture_id: int) -> None:
         db.close()
 
 
-def _project_refs(db: Session, user_id: int) -> List[interpretation_service.ProjectRef]:
-    """The user's projects, so a capture can be associated with one.
+def _match_project(db: Session, user_id: int, content: str) -> Optional[int]:
+    """Associate the capture with a project, from its text alone.
 
-    Only the user's own projects are sent, which is also what stops the model
-    from being able to name someone else's.
+    Only the user's own projects are considered, so a capture cannot be
+    attached to someone else's by any route. No model is involved -- see
+    project_matching.py and ADR-008.
     """
     projects = (
         db.query(Project).filter(Project.user_id == user_id).order_by(Project.name).all()
     )
-    return [
-        interpretation_service.ProjectRef(
-            id=p.id, name=p.name, description=p.description
-        )
-        for p in projects
-    ]
+    return match_project(content, projects)
 
 
 def _store_proposal(
     db: Session, capture: Capture, proposal, model_name, confidence_is_calibrated=True
 ) -> None:
     """Persist a validated proposal alongside its capture."""
-    # A suggested project must actually belong to this user. A model that
-    # guesses an id from another account should not create a cross-user link.
-    project_id = proposal.suggested_project_id
-    if project_id is not None:
-        owned = (
-            db.query(Project)
-            .filter(Project.id == project_id, Project.user_id == capture.user_id)
-            .first()
-        )
-        if owned is None:
-            project_id = None
+    # Derived here, from the capture's own words, rather than taken from the
+    # proposal. The interpreter is never given project ids, so it has nothing
+    # to guess with.
+    project_id = _match_project(db, capture.user_id, capture.content)
 
     db.add(
         Interpretation(
