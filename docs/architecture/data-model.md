@@ -132,10 +132,10 @@ captures land in `skipped` until a provider is configured.
 
 The remaining entities on this page are still conceptual.
 
-There is deliberately no Task entity yet. `roadmap/mvp.md` says accepted
-interpretations become structured work, but where an accepted `task` or `blocker`
-lands is an open decision — a new Task model, an Entry, or resolved state on the
-capture itself. That decision needs an ADR before the inbox accept flow is built.
+There is no Task entity yet. Where an accepted `task` or `blocker` lands is
+addressed by [ADR-006](../decisions/006-accepted-work-becomes-tasks.md), which
+proposes a minimal Task entity for actionable types only. That ADR is still
+**Proposed** — the inbox accept flow should not be built until it is settled.
 
 ## AgentRun
 

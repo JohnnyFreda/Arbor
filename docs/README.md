@@ -33,6 +33,7 @@ Architecture Decision Records (ADRs) live in `decisions/`.
 Use an ADR when a decision is likely to matter months later and a future developer or agent could reasonably ask, "Why was this built this way?"
 
 - `decisions/005-diary-to-workspace.md` — why DevDiary expanded beyond a journal. Read this first for background.
+- `decisions/006-accepted-work-becomes-tasks.md` — where accepted interpretations land. **Proposed**, not yet accepted.
 
 ## Development
 
