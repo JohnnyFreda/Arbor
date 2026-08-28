@@ -35,6 +35,7 @@ Use an ADR when a decision is likely to matter months later and a future develop
 - `decisions/005-diary-to-workspace.md` — why Arbor expanded beyond a journal. Read this first for background.
 - `decisions/006-accepted-work-becomes-tasks.md` — where accepted interpretations land.
 - `decisions/007-rename-to-arbor.md` — why the product is called Arbor, and why the ADRs and archive still say DevDiary.
+- `decisions/008-local-interpretation.md` — interpretation must be able to run locally, with the measurements behind it.
 
 ## Development
 
