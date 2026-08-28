@@ -123,6 +123,25 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
           );
         })}
       </nav>
+
+      {/*
+        The brand anchor for the collapsed rail. It lives at the bottom rather
+        than beside the toggle because 64px cannot hold both, and the header is
+        what has to stay still for the collapse to feel smooth.
+
+        Only shown collapsed -- expanded, the wordmark at the top is already
+        doing this job. Sitting after `flex-1` on the nav it is pinned to the
+        bottom, so growing and fading it moves nothing above it, and both
+        properties animate on the same curve as the rail.
+      */}
+      <div
+        className={`flex items-center justify-center overflow-hidden transition-all duration-300 ease-in-out ${
+          isCollapsed ? 'h-14 opacity-100' : 'h-0 opacity-0'
+        }`}
+        aria-hidden="true"
+      >
+        <ArborMark className="h-7 w-7 flex-shrink-0 text-moss-600/70 dark:text-moss-400/70" />
+      </div>
     </div>
   );
 }
