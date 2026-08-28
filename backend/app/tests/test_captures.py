@@ -22,8 +22,10 @@ class _StubInterpreter:
     def __init__(self, proposal=None, error=None):
         self._proposal = proposal
         self._error = error
+        self.seen_projects = None
 
-    def interpret(self, content):
+    def interpret(self, content, projects=()):
+        self.seen_projects = list(projects)
         if self._error:
             raise self._error
         return self._proposal
@@ -329,3 +331,30 @@ def test_delete_capture_removes_its_interpretation(
     assert db.query(Interpretation).filter(
         Interpretation.capture_id == capture_id
     ).count() == 0
+
+
+def test_interpreter_is_offered_only_the_users_own_projects(
+    auth_headers, make_user, monkeypatch, db
+):
+    """Project context is scoped, so the model cannot name someone else's."""
+    from app.db.models.project import Project
+    from app.db.models.user import User
+
+    me = db.query(User).filter(
+        User.id == client.get("/api/v1/auth/me", headers=auth_headers).json()["id"]
+    ).one()
+    mine = Project(user_id=me.id, name="My Project")
+    other_user, _ = make_user()
+    theirs = Project(user_id=other_user.id, name="Their Project")
+    db.add_all([mine, theirs])
+    db.commit()
+
+    stub = _StubInterpreter(ProposedInterpretation(type="note", confidence=0.5))
+    monkeypatch.setattr(interpretation_service, "get_interpreter", lambda: stub)
+
+    client.post(
+        "/api/v1/captures", json={"content": "which project?"}, headers=auth_headers
+    )
+
+    names = {p.name for p in stub.seen_projects}
+    assert names == {"My Project"}

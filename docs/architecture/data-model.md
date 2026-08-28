@@ -160,9 +160,10 @@ First-party skills may initially live in code or versioned Markdown rather than 
 ## Implementation status
 
 Capture and Interpretation exist in the backend as of migration `b7c2d914e83a`.
-Interpretation is written by the interpreter seam in
-`backend/app/services/interpretation.py`, which currently returns no interpreter —
-captures land in `skipped` until a provider is configured.
+Interpretation is written by the interpreter in
+`backend/app/services/interpretation.py`, backed by the Claude API. Without
+`ANTHROPIC_API_KEY` set there is no interpreter and captures land in `skipped` —
+stored and visible in the inbox, just not structured.
 
 The remaining entities on this page are still conceptual.
 

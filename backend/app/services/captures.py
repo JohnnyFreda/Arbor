@@ -109,7 +109,9 @@ def run_interpretation(capture_id: int) -> None:
         db.commit()
 
         try:
-            proposal = interpreter.interpret(capture.content)
+            proposal = interpreter.interpret(
+                capture.content, _project_refs(db, capture.user_id)
+            )
         except Exception:
             logger.exception(
                 "Interpretation failed for capture %s; capture preserved", capture_id
@@ -129,6 +131,23 @@ def run_interpretation(capture_id: int) -> None:
             db.commit()
     finally:
         db.close()
+
+
+def _project_refs(db: Session, user_id: int) -> List[interpretation_service.ProjectRef]:
+    """The user's projects, so a capture can be associated with one.
+
+    Only the user's own projects are sent, which is also what stops the model
+    from being able to name someone else's.
+    """
+    projects = (
+        db.query(Project).filter(Project.user_id == user_id).order_by(Project.name).all()
+    )
+    return [
+        interpretation_service.ProjectRef(
+            id=p.id, name=p.name, description=p.description
+        )
+        for p in projects
+    ]
 
 
 def _store_proposal(db: Session, capture: Capture, proposal, model_name) -> None:

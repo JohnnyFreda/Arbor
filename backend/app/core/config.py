@@ -25,6 +25,13 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 30
     
+    # Interpretation. Without a key there is no interpreter and captures land
+    # in `skipped` -- stored and visible, just not structured. See
+    # app/services/interpretation.py.
+    ANTHROPIC_API_KEY: str = ""
+    INTERPRETER_MODEL: str = "claude-opus-5"
+    INTERPRETER_MAX_TOKENS: int = 4096
+
     # CORS: read from env as plain string to avoid pydantic parsing; expose as list via computed field
     cors_origins_raw: str = Field(
         default="http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173",
