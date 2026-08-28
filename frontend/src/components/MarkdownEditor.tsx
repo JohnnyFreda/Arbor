@@ -1,4 +1,5 @@
 import MDEditor from '@uiw/react-md-editor';
+import { useTheme } from '../context/ThemeContext';
 import { useState, useRef, useEffect } from 'react';
 
 interface MarkdownEditorProps {
@@ -7,6 +8,11 @@ interface MarkdownEditorProps {
 }
 
 export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
+  // MDEditor themes itself from data-color-mode, not from Tailwind's dark
+  // class, so it has to be told. Pinned to "light" it rendered a white panel
+  // inside every dark page -- which only became obvious once dark was the
+  // default rather than the opt-in.
+  const { theme } = useTheme();
   const [viewMode, setViewMode] = useState<'edit' | 'preview' | 'split'>('edit');
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -84,7 +90,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
     <div 
       ref={editorRef}
       className="w-full rounded-lg border border-gray-300 dark:border-gray-600 focus-within:ring-2 focus-within:ring-moss-500 focus-within:border-moss-500 dark:focus-within:ring-moss-500 dark:focus-within:border-moss-500 overflow-hidden"
-      data-color-mode="light"
+      data-color-mode={theme}
     >
       <div className="mb-2 flex gap-2">
         <button

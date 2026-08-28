@@ -179,15 +179,19 @@ def _looking_ahead(unfinished: List[Task], blockers: List[Task]) -> str:
     if not unfinished and not blockers:
         return ""
 
-    parts: List[str] = []
     first = (sorted(blockers, key=_rank) or unfinished)[0]
-    parts.append(f"Start with: {first.title}")
+    # Ends with a full stop: the title runs straight into the next sentence
+    # otherwise, and task titles do not carry their own punctuation.
+    parts: List[str] = [f"Start with: {first.title}."]
 
     remaining = len(unfinished) + len(blockers) - 1
     if remaining > 0:
-        tail = f"{remaining} other item{'s' if remaining != 1 else ''} still open"
-        if blockers:
-            tail += f", {len(blockers)} blocked"
+        # Blockers still counted excludes the one just named, or the sentence
+        # tells the user two things are blocked while pointing at one of them.
+        blocked_left = len([b for b in blockers if b.id != first.id])
+        tail = f"{remaining} other{'s' if remaining != 1 else ''} still open"
+        if blocked_left:
+            tail += f", {blocked_left} of them blocked"
         parts.append(tail + ".")
 
     return " ".join(parts)

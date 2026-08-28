@@ -172,14 +172,17 @@ def test_first_action_is_an_existing_task_never_invented(owner, db):
     _task(db, owner["user"].id, "Low thing", priority="low")
     _task(db, owner["user"].id, "High thing", priority="high")
     review = _review(owner["headers"])
-    assert review["proposed_looking_ahead"].startswith("Start with: High thing")
+    assert review["proposed_looking_ahead"].startswith("Start with: High thing.")
 
 
 def test_a_blocker_outranks_ordinary_work(owner, db):
     _task(db, owner["user"].id, "High thing", priority="high")
     _task(db, owner["user"].id, "Nobody owns the creds", kind=TaskType.BLOCKER)
     review = _review(owner["headers"])
-    assert "Start with: Nobody owns the creds" in review["proposed_looking_ahead"]
+    ahead = review["proposed_looking_ahead"]
+    assert ahead.startswith("Start with: Nobody owns the creds.")
+    # The blocker just named must not also be counted as still blocked.
+    assert "blocked" not in ahead, ahead
 
 
 def test_nothing_open_means_nothing_suggested(owner, db):
@@ -264,3 +267,12 @@ def test_evening_capture_west_of_utc_stays_in_todays_review(owner, db):
     # And it belongs to that day only -- not to the UTC one.
     next_day = _review(owner["headers"], day=stored_utc.date(), offset=offset)
     assert "late night thought" not in next_day["proposed_body"]
+
+
+def test_remaining_blocked_count_excludes_the_one_named(owner, db):
+    _task(db, owner["user"].id, "Ordinary work")
+    _task(db, owner["user"].id, "First blocker", kind=TaskType.BLOCKER, priority="high")
+    _task(db, owner["user"].id, "Second blocker", kind=TaskType.BLOCKER)
+    ahead = _review(owner["headers"])["proposed_looking_ahead"]
+    assert ahead.startswith("Start with: First blocker.")
+    assert "2 others still open, 1 of them blocked." in ahead, ahead
