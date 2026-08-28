@@ -10,11 +10,14 @@ Arbor began as a developer journal and is expanding into a persistent workspace 
 
 ## Live Demo
 
-**[Try the app →](https://dev-diary-psi.vercel.app)**
+**[Try the app →](https://arbor-workspace.vercel.app)**
 
 Use **Continue as guest** to explore without signing up. The demo may take a moment to load after inactivity (free-tier backend spin-up).
 
-The deployment is still named `dev-diary`; renaming it changes a live URL and is sequenced separately. See [ADR-007](docs/decisions/007-rename-to-arbor.md).
+The older `dev-diary-psi.vercel.app` address still resolves to the same deployment.
+The backend service is also still named `dev-diary-api`; renaming it changes a live
+URL that the frontend is configured with, so it is sequenced separately. See
+[ADR-007](docs/decisions/007-rename-to-arbor.md).
 
 ## Status
 
@@ -176,7 +179,7 @@ The live demo uses a fully free stack:
 | Backend | [Render](https://render.com) | Web Service, root: `backend`. Start: `alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Python 3.12 (`runtime.txt`). |
 | Database | [Neon](https://neon.tech) | PostgreSQL. Connection string as `DATABASE_URL` on Render. |
 
-**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://dev-diary-psi.vercel.app`), plus `COOKIE_SAMESITE=none` and `COOKIE_SECURE=true`.
+**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URLs, e.g. `https://arbor-workspace.vercel.app`), plus `COOKIE_SAMESITE=none` and `COOKIE_SECURE=true`.
 
 Those last two are not optional in production. The frontend and the API are on
 different sites there, so the refresh-token cookie is cross-site, and the

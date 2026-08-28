@@ -67,11 +67,21 @@ Negative:
 
 ## Follow-up work
 
-Sequenced deliberately, because each step changes a live URL:
+Sequenced deliberately, because each step changes a live URL.
 
-1. Rename the Vercel project, then update `CORS_ORIGINS` on Render to the new frontend URL.
-2. Rename the Render service, then update `VITE_API_URL` on Vercel to the new backend URL.
-3. Rename the GitHub repository and update the `origin` remote locally.
-4. Update the demo links in `README.md` to the URLs that then exist.
+Done:
 
-Until step 4, `README.md` should carry the URLs that are actually live.
+1. The Vercel project is named `arbor` and serves `arbor-workspace.vercel.app`, with
+   `CORS_ORIGINS` on Render updated to match. The original `dev-diary-psi.vercel.app`
+   still resolves to the same deployment, so no existing link breaks.
+3. The GitHub repository is `JohnnyFreda/Arbor`.
+4. `README.md` points at the Arbor address.
+
+Outstanding:
+
+2. The Render service is still `dev-diary-api`, so the backend URL still carries the old
+   name. Renaming it changes the host the frontend is configured with, so `VITE_API_URL`
+   on Vercel has to be updated in the same window or the demo breaks between the two.
+   It is cosmetic — the URL is not user-facing — which is why it is last.
+
+`README.md` should always carry the URLs that are actually live, not the intended ones.
