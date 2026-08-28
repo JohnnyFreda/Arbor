@@ -28,6 +28,18 @@ class Settings(BaseSettings):
     # Interpretation. Without a key there is no interpreter and captures land
     # in `skipped` -- stored and visible, just not structured. See
     # app/services/interpretation.py.
+    # auto | ollama | claude | none. `auto` prefers a configured local model,
+    # then a Claude key, then nothing. Configuration decides -- nothing probes
+    # the network, so behaviour is predictable. See ADR-008.
+    INTERPRETER_PROVIDER: str = "auto"
+
+    # Local inference. Setting OLLAMA_MODEL is what turns the local path on.
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = ""
+    # Generous: loading weights on a cold model measured ~37s on a laptop CPU,
+    # and interpretation runs in the background where nobody is waiting.
+    OLLAMA_TIMEOUT_SECONDS: float = 180.0
+
     ANTHROPIC_API_KEY: str = ""
     INTERPRETER_MODEL: str = "claude-opus-5"
     INTERPRETER_MAX_TOKENS: int = 4096
