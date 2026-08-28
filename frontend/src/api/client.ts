@@ -38,6 +38,24 @@ export const warmUpApi = (): void => {
   });
 };
 
+/**
+ * The message worth showing a user, pulled out of whatever was thrown.
+ *
+ * Prefers the API's own `detail`, then the error's message, then the caller's
+ * fallback. Narrows with axios's own type guard rather than reaching into an
+ * `any`, so a thrown string or a non-axios Error cannot crash the handler.
+ */
+export const apiErrorMessage = (error: unknown, fallback: string): string => {
+  if (axios.isAxiosError(error)) {
+    const detail = (error.response?.data as { detail?: string } | undefined)?.detail;
+    return detail || error.message || fallback;
+  }
+  if (error instanceof Error) {
+    return error.message || fallback;
+  }
+  return fallback;
+};
+
 /** True when a request failed because it timed out rather than being refused. */
 export const isTimeoutError = (error: unknown): boolean => {
   const e = error as { code?: string; message?: string };
@@ -78,8 +96,8 @@ apiClient.interceptors.request.use(
 // Response interceptor: handle token refresh on 401
 let isRefreshing = false;
 let failedQueue: Array<{
-  resolve: (value?: any) => void;
-  reject: (reason?: any) => void;
+  resolve: (value?: string | null) => void;
+  reject: (reason?: unknown) => void;
 }> = [];
 
 const processQueue = (error: AxiosError | null, token: string | null = null) => {

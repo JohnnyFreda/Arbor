@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { apiClient, setAccessToken, getAccessToken, isTimeoutError } from './client';
 
 export interface LoginCredentials {
@@ -26,12 +27,12 @@ export const authApi = {
     try {
       const response = await apiClient.post('/auth/register', data);
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Registration error:', error);
-      if (error.response) {
+      if (axios.isAxiosError(error) && error.response) {
         // Server responded with error
         throw error;
-      } else if (error.request) {
+      } else if (axios.isAxiosError(error) && error.request) {
         // No response. A timeout means the request was still in flight -- the
         // demo API is on a free tier that cold-starts after idling -- which is
         // a different situation from the server refusing the connection.
@@ -62,12 +63,12 @@ export const authApi = {
       setAccessToken(access_token);
       console.log('Token set, verifying...', getAccessToken() ? 'Token exists' : 'Token missing!');
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Login error:', error);
-      if (error.response) {
+      if (axios.isAxiosError(error) && error.response) {
         // Server responded with error
         throw error;
-      } else if (error.request) {
+      } else if (axios.isAxiosError(error) && error.request) {
         // No response. A timeout means the request was still in flight -- the
         // demo API is on a free tier that cold-starts after idling -- which is
         // a different situation from the server refusing the connection.

@@ -6,12 +6,6 @@ interface GuestNoticeModalProps {
   onDismiss: () => void;
 }
 
-const GUEST_EMAIL = 'guest@example.com';
-
-export function isGuestUser(email: string | undefined): boolean {
-  return email === GUEST_EMAIL;
-}
-
 export default function GuestNoticeModal({ onDismiss }: GuestNoticeModalProps) {
   const { logout } = useAuth();
   const navigate = useNavigate();

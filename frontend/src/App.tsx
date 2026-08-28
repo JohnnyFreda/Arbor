@@ -17,7 +17,8 @@ import CalendarPage from './pages/CalendarPage';
 import SettingsPage from './pages/SettingsPage';
 import Layout from './components/Layout/Layout';
 import LookingAheadReminder from './components/LookingAheadReminder';
-import GuestNoticeModal, { isGuestUser } from './components/GuestNoticeModal';
+import GuestNoticeModal from './components/GuestNoticeModal';
+import { isGuestUser } from './lib/guest';
 import Skeleton from './components/ui/Skeleton';
 
 const GUEST_NOTICE_SESSION_KEY = 'guestNoticeDismissed';

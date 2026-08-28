@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/client';
 import { useState } from 'react';
 import ArborMark from '../components/ArborMark';
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,10 +20,9 @@ export default function LoginPage() {
     try {
       await login(email, password);
       navigate('/dashboard');
-    } catch (err: any) {
+    } catch (err) {
       console.error('Login error:', err);
-      const errorMessage = err.response?.data?.detail || err.message || 'Failed to login';
-      setError(errorMessage);
+      setError(apiErrorMessage(err, 'Failed to login'));
     } finally {
       setIsLoading(false);
     }
@@ -107,9 +107,8 @@ export default function LoginPage() {
               try {
                 await guestLogin();
                 navigate('/dashboard');
-              } catch (err: any) {
-                const errorMessage = err.message || err.response?.data?.detail || 'Guest login failed';
-                setError(errorMessage);
+              } catch (err) {
+                setError(apiErrorMessage(err, 'Guest login failed'));
                 console.error('Guest login error:', err);
               } finally {
                 setIsLoading(false);

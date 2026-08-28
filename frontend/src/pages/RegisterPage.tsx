@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/client';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -18,10 +19,9 @@ export default function RegisterPage() {
     try {
       await register(email, password);
       navigate('/dashboard');
-    } catch (err: any) {
+    } catch (err) {
       console.error('Registration error:', err);
-      const errorMessage = err.response?.data?.detail || err.message || 'Failed to register';
-      setError(errorMessage);
+      setError(apiErrorMessage(err, 'Failed to register'));
     } finally {
       setIsLoading(false);
     }
