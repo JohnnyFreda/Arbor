@@ -28,6 +28,14 @@ jobs:
       - run: pip install -r requirements.txt
         working-directory: backend
 
+      # Seeds are written against the models at HEAD, so the schema has to get
+      # there first. Without this the job fails the moment a migration lands
+      # that production has not had applied.
+      - run: alembic upgrade head
+        working-directory: backend
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - run: python -m scripts.seed_guest
         working-directory: backend
         env:
