@@ -3,6 +3,7 @@ import {
   HomeIcon,
   DocumentTextIcon,
   BoltIcon,
+  InboxIcon,
   FolderIcon,
   TagIcon,
   CalendarIcon,
@@ -13,6 +14,7 @@ import {
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
   { name: 'Capture', href: '/capture', icon: BoltIcon },
+  { name: 'Inbox', href: '/inbox', icon: InboxIcon },
   { name: 'Entries', href: '/entries', icon: DocumentTextIcon },
   { name: 'Projects', href: '/projects', icon: FolderIcon },
   { name: 'Tags', href: '/tags', icon: TagIcon },

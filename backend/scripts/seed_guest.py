@@ -25,7 +25,7 @@ from app.core.security import get_password_hash
 from app.db.models.capture import Capture, ProcessingStatus
 from app.db.models.entry import Entry
 from app.db.models.entry_tag import entry_tags
-from app.db.models.interpretation import Interpretation
+from app.db.models.interpretation import Interpretation, InterpretationStatus
 from app.db.models.task import Task, TaskStatus, TaskType
 from app.db.models.project import Project
 from app.db.models.tag import Tag
@@ -48,25 +48,38 @@ TAGS = [
     "deploy", "debugging", "planning", "reading", "design",
 ]
 
-# Unprocessed captures so the Inbox has something to show. Deliberately messy
-# and unstructured -- that is what a real quick capture looks like.
+# Captures for the Inbox. Deliberately messy and unstructured -- that is what a
+# real quick capture looks like. Each carries the proposal an interpreter would
+# have produced, or None to leave it unstructured so the Interpret path shows.
+#   (text, source, proposal)
+#   proposal = (type, title, project index, priority, next action, confidence)
 CAPTURES = [
-    ("still getting logged out after leaving the tab open overnight -- refresh token?", "desktop"),
-    ("idea: let projects link to a github repo so the dashboard can show recent PRs", "desktop"),
-    ("ask about the rate limit on the tour search endpoint before we ship", "mobile"),
-    ("blocked on the staging db creds, nobody seems to own them", "mobile"),
-    ("that N+1 in the calendar query is going to bite us at 10k entries", "desktop"),
-    ("remember to write up why we went with capture-first instead of a form", "voice"),
+    ("still getting logged out after leaving the tab open overnight -- refresh token?", "desktop",
+     ("task", "Investigate the overnight logout", 1, "high", "Reproduce with a long-idle session", 0.78)),
+    ("blocked on the staging db creds, nobody seems to own them", "mobile",
+     ("blocker", "Staging database credentials are unowned", 0, "high", "Find who provisioned them", 0.85)),
+    ("that N+1 in the calendar query is going to bite us at 10k entries", "desktop",
+     ("task", "Fix the N+1 in the calendar query", 1, "medium", "Add an index and re-measure", 0.66)),
+    ("idea: let projects link to a github repo so the dashboard can show recent PRs", "desktop",
+     ("idea", "Link projects to GitHub repositories", 1, None, None, 0.62)),
+    # Low confidence on purpose: the interpreter is meant to surface ambiguity
+    # rather than hide it behind a confident-looking guess.
+    ("remember to write up why we went with capture-first instead of a form", "voice",
+     ("note", "Write up the capture-first decision", 1, None, None, 0.41)),
+    # Left unstructured so the "Interpret" path is visible in the demo.
+    ("ask about the rate limit on the tour search endpoint before we ship", "mobile", None),
 ]
 
 # Accepted work, so the dashboard has open tasks and a blocker to show.
 # (title, type, status, priority, project index)
+# Deliberately distinct from CAPTURES: these represent work accepted on earlier
+# days. Mirroring the inbox here would make processing it produce duplicates.
 TASKS = [
-    ("Add a regression test for the refresh-token expiry", TaskType.TASK, TaskStatus.OPEN, "high", 1),
-    ("Index entries.date before the calendar query gets slow", TaskType.TASK, TaskStatus.OPEN, "medium", 1),
-    ("Write up the capture-first decision as an ADR", TaskType.TASK, TaskStatus.OPEN, "low", 1),
-    ("Staging database credentials -- nobody owns them", TaskType.BLOCKER, TaskStatus.OPEN, "high", 0),
-    ("Confirm the tour search rate limit before shipping", TaskType.BLOCKER, TaskStatus.OPEN, None, 0),
+    ("Add pagination to the entries list", TaskType.TASK, TaskStatus.OPEN, "medium", 1),
+    ("Move the JWT secret out of the example env file", TaskType.TASK, TaskStatus.OPEN, "high", 1),
+    ("Draft the portfolio write-up for Tourify", TaskType.TASK, TaskStatus.OPEN, "low", 2),
+    ("Expo build fails on the CI runner only", TaskType.BLOCKER, TaskStatus.OPEN, "high", 0),
+    ("Waiting on a design for the empty dashboard state", TaskType.BLOCKER, TaskStatus.OPEN, None, 1),
     ("Split the seed script out of the migration", TaskType.TASK, TaskStatus.DONE, None, 1),
 ]
 
@@ -180,16 +193,35 @@ def main() -> None:
                 db.execute(entry_tags.insert().values(entry_id=entry.id, tag_id=by_tag[name].id))
             rows += 1
 
-        for text, source in CAPTURES:
-            db.add(Capture(
+        for text, source, proposal in CAPTURES:
+            # Never PENDING: these rows are inserted directly rather than through
+            # the API, so no interpretation task will ever run for them. Left
+            # pending, the inbox would poll for them forever.
+            capture = Capture(
                 user_id=user.id,
                 content=text,
                 source=source,
-                # SKIPPED, not PENDING: these rows are inserted directly rather
-                # than through the API, so no interpretation task will ever run
-                # for them. Left pending, the inbox polls for them forever.
-                processing_status=ProcessingStatus.SKIPPED,
-            ))
+                processing_status=(
+                    ProcessingStatus.INTERPRETED if proposal
+                    else ProcessingStatus.SKIPPED
+                ),
+            )
+            db.add(capture)
+            db.flush()
+
+            if proposal:
+                kind, title, project_index, priority, next_action, confidence = proposal
+                db.add(Interpretation(
+                    capture_id=capture.id,
+                    type=kind,
+                    suggested_title=title,
+                    suggested_project_id=projects[project_index].id,
+                    suggested_priority=priority,
+                    suggested_next_action=next_action,
+                    confidence=confidence,
+                    status=InterpretationStatus.PROPOSED,
+                    model="claude-opus-5",
+                ))
 
         for title, kind, status, priority, project_index in TASKS:
             db.add(Task(
@@ -211,7 +243,8 @@ def main() -> None:
     print(f"{'created' if created else 'reset'} {args.email} (password: {GUEST_PASSWORD})")
     print(f"  {rows} entries across {args.days} days, ending today ({today})")
     print(f"  {len(PROJECTS)} projects, {len(TAGS)} tags")
-    print(f"  {len(CAPTURES)} unprocessed captures in the inbox")
+    proposed = sum(1 for _, _, p in CAPTURES if p)
+    print(f"  {len(CAPTURES)} captures in the inbox ({proposed} with proposals)")
     open_tasks = sum(1 for _, _, s, _, _ in TASKS if s == TaskStatus.OPEN)
     blockers = sum(1 for _, k, s, _, _ in TASKS if k == TaskType.BLOCKER and s == TaskStatus.OPEN)
     print(f"  {open_tasks} open tasks ({blockers} blockers)")
