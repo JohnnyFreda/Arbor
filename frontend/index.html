@@ -4,6 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234d7c5f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21V9'/><path d='M12 15 L7.5 10.5'/><path d='M12 15 L16.5 10.5'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+      // Runs before first paint. React applies the theme class in an effect,
+      // which lands after the browser has already painted -- with dark as the
+      // default that shows as a white flash on every load.
+      // Dark is Arbor's default; an explicit choice is remembered.
+      (function () {
+        var t = "dark";
+        try { if (localStorage.getItem("theme") === "light") t = "light"; } catch (e) {}
+        var root = document.documentElement;
+        root.classList.add(t);
+        // Set inline too: the stylesheet has not resolved yet at this point, so
+        // the class alone still leaves one white frame. Values are gray-900 and
+        // gray-200 from tailwind.config.js.
+        root.style.backgroundColor = t === "light" ? "#e5ebe7" : "#16221b";
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:400,500,600,700&display=swap" rel="stylesheet" />

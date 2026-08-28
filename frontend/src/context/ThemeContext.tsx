@@ -20,16 +20,27 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  // Dark is Arbor's default. Only an explicit stored 'light' opts out -- system
+  // preference is deliberately not consulted, so the app looks like itself on
+  // first visit. The pre-paint script in index.html applies the same rule.
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const saved = localStorage.getItem('theme');
-    return (saved as 'light' | 'dark') || 'light';
+    try {
+      return localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+    } catch {
+      return 'dark';
+    }
   });
 
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-    localStorage.setItem('theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      // Private browsing or blocked storage. The theme still applies for this
+      // session; only remembering it across visits is lost.
+    }
   }, [theme]);
 
   const toggleTheme = () => {

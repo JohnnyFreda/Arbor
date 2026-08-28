@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Painted before the stylesheet resolves, so there is no white frame ahead of
+   the themed one. Values are gray-900 and gray-200 from tailwind.config.js --
+   hardcoded because this has to apply without waiting on Tailwind. */
+html { background-color: #16221b; }
+html.light { background-color: #e5ebe7; }
+
 body {
   margin: 0;
   @apply font-sans antialiased;
