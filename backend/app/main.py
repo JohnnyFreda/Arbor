@@ -14,6 +14,17 @@ logging.basicConfig(
 )
 
 
+# Browsers reject SameSite=None unless the cookie is also Secure, and they do
+# so silently -- the cookie is simply never stored, which presents exactly like
+# the cross-site bug this setting exists to fix. Fail at boot instead.
+if settings.COOKIE_SAMESITE == "none" and not settings.COOKIE_SECURE:
+    raise RuntimeError(
+        "COOKIE_SAMESITE=none requires COOKIE_SECURE=true. Browsers discard a "
+        "SameSite=None cookie that is not Secure, so refresh tokens would never "
+        "be stored and every reload would log the user out."
+    )
+
+
 app = FastAPI(
     title="Arbor API",
     description="A full-stack developer diary application",

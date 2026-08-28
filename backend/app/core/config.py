@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings
 from pydantic import Field, computed_field
-from typing import List
+from typing import List, Literal
 import json
 
 
@@ -43,6 +43,20 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
     INTERPRETER_MODEL: str = "claude-opus-5"
     INTERPRETER_MAX_TOKENS: int = 4096
+
+    # Refresh-token cookie. The defaults suit local development, where the Vite
+    # proxy makes the frontend and API same-origin.
+    #
+    # In production they are not same-origin -- the frontend is on Vercel and
+    # the API on Render -- so every /auth/refresh is a cross-site request, and
+    # a SameSite=Lax cookie is simply not sent. That is why a page reload or a
+    # deep link logs the user out there but never locally.
+    #
+    # Production therefore needs COOKIE_SAMESITE=none with COOKIE_SECURE=true.
+    # Browsers reject SameSite=None without Secure, so the two move together;
+    # see the startup check in app/main.py.
+    COOKIE_SAMESITE: Literal["lax", "strict", "none"] = "lax"
+    COOKIE_SECURE: bool = False
 
     # CORS: read from env as plain string to avoid pydantic parsing; expose as list via computed field
     cors_origins_raw: str = Field(

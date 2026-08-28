@@ -69,8 +69,11 @@ async def login(
         key="refresh_token",
         value=refresh_token,
         httponly=True,
-        samesite="lax",
-        secure=False,  # Set to True in production with HTTPS
+        # Configured, not hardcoded: the frontend and API are same-origin in
+        # development and cross-site in production, and a Lax cookie is not
+        # sent cross-site. See app/core/config.py.
+        samesite=settings.COOKIE_SAMESITE,
+        secure=settings.COOKIE_SECURE,
         max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
     )
     
@@ -117,7 +120,14 @@ async def refresh_token(
 @router.post("/logout")
 async def logout(response: Response):
     """Logout by clearing refresh token cookie."""
-    response.delete_cookie(key="refresh_token", samesite="lax")
+    # Must match the attributes it was set with, or the browser keeps the
+    # original cookie and "logout" silently does nothing.
+    response.delete_cookie(
+        key="refresh_token",
+        httponly=True,
+        samesite=settings.COOKIE_SAMESITE,
+        secure=settings.COOKIE_SECURE,
+    )
     return {"message": "Logged out successfully"}
 
 

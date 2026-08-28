@@ -176,7 +176,14 @@ The live demo uses a fully free stack:
 | Backend | [Render](https://render.com) | Web Service, root: `backend`. Start: `alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Python 3.12 (`runtime.txt`). |
 | Database | [Neon](https://neon.tech) | PostgreSQL. Connection string as `DATABASE_URL` on Render. |
 
-**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://dev-diary-psi.vercel.app`).
+**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://dev-diary-psi.vercel.app`), plus `COOKIE_SAMESITE=none` and `COOKIE_SECURE=true`.
+
+Those last two are not optional in production. The frontend and the API are on
+different sites there, so the refresh-token cookie is cross-site, and the
+`lax` default means the browser never sends it — a page reload or a deep link
+drops the session and bounces the user to sign-in. Locally the Vite proxy makes
+everything same-origin, so the defaults are correct and the problem is
+invisible.
 
 **Frontend env (Vercel):** `VITE_API_URL` = your Render backend URL only (no path, no trailing slash).
 
