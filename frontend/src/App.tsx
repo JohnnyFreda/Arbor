@@ -115,11 +115,23 @@ function AppContent() {
           }
         />
       </Routes>
-      {showReminder && isAuthenticated && (
-        <LookingAheadReminder onDismiss={handleDismissReminder} />
-      )}
-      {showGuestNotice && (
+      {/*
+        At most one modal at a time. Both used to mount together, stacking two
+        full-screen overlays -- the top one swallowed pointer events for the
+        whole page, so the first screen a visitor saw could not be clicked
+        through until both were dismissed.
+
+        The guest notice goes first: it explains that the account is shared,
+        which matters before anything else a visitor does. Dismissing it hands
+        the screen to the reminder, so both are still seen -- in sequence
+        rather than piled up.
+      */}
+      {showGuestNotice ? (
         <GuestNoticeModal onDismiss={handleDismissGuestNotice} />
+      ) : (
+        showReminder && isAuthenticated && (
+          <LookingAheadReminder onDismiss={handleDismissReminder} />
+        )
       )}
     </>
   );

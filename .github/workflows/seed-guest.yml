@@ -4,14 +4,11 @@ name: Reset guest demo data
 # stale: within a couple of weeks the demo reads 0 and looks abandoned again.
 # This also wipes whatever visitors typed into the shared guest account.
 on:
-  # PAUSED during the workspace rebuild. The job now migrates production
-  # before seeding, so leaving it on a schedule would apply half-finished
-  # migrations overnight -- and once the migration history is squashed, the
-  # revision production is stamped at stops existing and every run fails.
-  # Re-enable once the migrations settle.
-  # schedule:
-  #   - cron: "0 7 * * *" # 07:00 UTC daily
-  workflow_dispatch: # still runnable by hand, from the Actions tab
+  # Resumed: the migrations settled at c3f81a2b57d9, production is stamped
+  # there and serving every endpoint, and the history was never squashed.
+  schedule:
+    - cron: "0 7 * * *" # 07:00 UTC daily
+  workflow_dispatch: # and on demand, from the Actions tab
 
 concurrency:
   group: seed-guest
