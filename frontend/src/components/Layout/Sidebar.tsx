@@ -41,16 +41,29 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
           : 'w-[191px] sm:w-48 md:w-52 lg:w-56 xl:w-60 2xl:w-64'
       }`}
     >
-      <div className="p-4 flex items-center justify-between">
-        {/* The wordmark collapses away with the rail; the mark deliberately
-            does not, so a collapsed sidebar still has a brand anchor. */}
+      {/*
+        Collapsed, the rail is 64px wide. Side by side the mark (28px) and the
+        toggle (40px) need 68px before padding, so they overlapped and the
+        rail's overflow-hidden clipped the result. Stacking them uses the
+        vertical space the rail has going spare, and keeps both -- the mark is
+        the only brand anchor left once the wordmark collapses away.
+      */}
+      <div
+        className={`flex ${
+          isCollapsed
+            ? 'flex-col items-center gap-2 px-2 py-4'
+            : 'flex-row items-center justify-between p-4'
+        }`}
+      >
         <div className="flex items-center min-w-0">
           <ArborMark className="h-7 w-7 flex-shrink-0 text-moss-600 dark:text-moss-400" />
           <h1
-          className={`ml-2 text-2xl font-bold text-gray-900 dark:text-white transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap ${
+          className={`text-2xl font-bold text-gray-900 dark:text-white transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap ${
             isCollapsed
-              ? 'max-w-0 opacity-0'
-              : 'max-w-[200px] opacity-100'
+              // The margin collapses with the word. Left in, it shifts the mark
+              // off the centre line the nav icons below it sit on.
+              ? 'ml-0 max-w-0 opacity-0'
+              : 'ml-2 max-w-[200px] opacity-100'
           }`}
         >
             Arbor
