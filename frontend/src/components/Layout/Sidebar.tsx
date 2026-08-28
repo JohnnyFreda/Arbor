@@ -42,21 +42,31 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
       }`}
     >
       {/*
-        Collapsed, the rail is 64px wide. Side by side the mark (28px) and the
-        toggle (40px) need 68px before padding, so they overlapped and the
-        rail's overflow-hidden clipped the result. Stacking them uses the
-        vertical space the rail has going spare, and keeps both -- the mark is
-        the only brand anchor left once the wordmark collapses away.
+        The rail is 64px collapsed, and the mark (28px) plus the toggle (40px)
+        need 68px side by side -- so both cannot stay. Stacking them fits, but
+        flex-direction is not animatable: the layout snapped to a column
+        instantly while the width took 300ms, which is what made collapsing
+        feel jumpy.
+
+        So the mark collapses with the wordmark instead, as one lockup, and
+        nothing here changes direction. Only width, padding and opacity move,
+        and all three animate.
+
+        px-3 collapsed is deliberate: 64px less 24px leaves exactly the 40px
+        toggle, so justify-between centres it on the same line as the nav
+        icons without a justify change to jump.
       */}
       <div
-        className={`flex ${
-          isCollapsed
-            ? 'flex-col items-center gap-2 px-2 py-4'
-            : 'flex-row items-center justify-between p-4'
+        className={`flex flex-row items-center justify-between py-4 transition-all duration-300 ease-in-out ${
+          isCollapsed ? 'px-3' : 'px-4'
         }`}
       >
         <div className="flex items-center min-w-0">
-          <ArborMark className="h-7 w-7 flex-shrink-0 text-moss-600 dark:text-moss-400" />
+          <ArborMark
+            className={`h-7 flex-shrink-0 text-moss-600 dark:text-moss-400 transition-all duration-300 ease-in-out ${
+              isCollapsed ? 'w-0 opacity-0' : 'w-7 opacity-100'
+            }`}
+          />
           <h1
           className={`text-2xl font-bold text-gray-900 dark:text-white transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap ${
             isCollapsed
