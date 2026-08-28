@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
+import CapturePage from './pages/CapturePage';
 import EntriesPage from './pages/EntriesPage';
 import EntryDetailPage from './pages/EntryDetailPage';
 import EntryEditPage from './pages/EntryEditPage';
@@ -97,6 +98,7 @@ function AppContent() {
                 <Routes>
                   <Route path="/" element={<Navigate to="/dashboard" replace />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/capture" element={<CapturePage />} />
                   <Route path="/entries" element={<EntriesPage />} />
                   <Route path="/entries/new" element={<EntryCreatePage />} />
                   <Route path="/entries/:id" element={<EntryDetailPage />} />

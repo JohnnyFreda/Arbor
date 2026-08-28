@@ -185,7 +185,10 @@ def main() -> None:
                 user_id=user.id,
                 content=text,
                 source=source,
-                processing_status=ProcessingStatus.PENDING,
+                # SKIPPED, not PENDING: these rows are inserted directly rather
+                # than through the API, so no interpretation task will ever run
+                # for them. Left pending, the inbox polls for them forever.
+                processing_status=ProcessingStatus.SKIPPED,
             ))
 
         for title, kind, status, priority, project_index in TASKS:

@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   HomeIcon,
   DocumentTextIcon,
+  BoltIcon,
   FolderIcon,
   TagIcon,
   CalendarIcon,
@@ -11,6 +12,7 @@ import {
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+  { name: 'Capture', href: '/capture', icon: BoltIcon },
   { name: 'Entries', href: '/entries', icon: DocumentTextIcon },
   { name: 'Projects', href: '/projects', icon: FolderIcon },
   { name: 'Tags', href: '/tags', icon: TagIcon },
