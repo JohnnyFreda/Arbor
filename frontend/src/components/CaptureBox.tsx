@@ -10,6 +10,13 @@ import {
 } from '../api/captures';
 
 const DRAFT_KEY = 'captureDraft';
+
+// Mac reads ⌘, everyone else Ctrl. Only used in the tooltip -- the button
+// itself never depends on knowing this.
+const shortcutHint =
+  typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
+    ? '⌘ + Enter'
+    : 'Ctrl + Enter';
 const MAX_LENGTH = 20000;
 const COUNTER_APPEARS_AT = 19000;
 
@@ -150,7 +157,7 @@ export default function CaptureBox({ autoFocus = false, onCaptured }: CaptureBox
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-y focus:ring-2 focus:ring-moss-500 focus:border-moss-500"
         />
 
-        <div className="mt-3 flex items-center justify-between gap-4">
+        <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="text-sm min-h-[1.25rem]" aria-live="polite">
             {createMutation.isError && (
               <span className="text-red-600 dark:text-red-400">
@@ -176,18 +183,20 @@ export default function CaptureBox({ autoFocus = false, onCaptured }: CaptureBox
             )}
           </div>
 
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <kbd className="hidden sm:inline text-xs text-gray-500 dark:text-gray-400">
-              ⌘↵
-            </kbd>
-            <button
-              type="submit"
-              disabled={!canSubmit || overLimit}
-              className="bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white font-medium py-2 px-5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-            >
-              {createMutation.isPending ? 'Saving…' : 'Capture'}
-            </button>
-          </div>
+          {/*
+            The button is the way in. The keyboard shortcut still works and is
+            named in the tooltip, but it is not advertised as the interface --
+            a bare glyph next to the button read as though the shortcut were
+            the real control and the button an afterthought.
+          */}
+          <button
+            type="submit"
+            disabled={!canSubmit || overLimit}
+            title={`Capture your thought (${shortcutHint})`}
+            className="w-full sm:w-auto flex-shrink-0 bg-moss-600 hover:bg-moss-700 dark:bg-moss-500 dark:hover:bg-moss-600 text-white font-semibold py-2.5 px-7 rounded-lg disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-moss-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+          >
+            {createMutation.isPending ? 'Saving…' : 'Capture'}
+          </button>
         </div>
       </form>
     </div>
