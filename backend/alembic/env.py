@@ -10,6 +10,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.core.config import settings
 from app.db.base import Base
+# Import models so their tables register on Base.metadata; without this
+# --autogenerate sees an empty schema and proposes dropping everything.
+from app.db import models  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

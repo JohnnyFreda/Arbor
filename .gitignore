@@ -11,6 +11,10 @@ backend/venv/
 .venv/
 venv/
 
+# Test artifacts
+*.db
+backend/app/tests/test_devdiary.db
+
 # Build and cache
 frontend/dist/
 *.pyc

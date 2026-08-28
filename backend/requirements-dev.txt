@@ -1,0 +1,8 @@
+# Test-only dependencies. Not installed in production.
+#   pip install -r requirements.txt -r requirements-dev.txt
+-r requirements.txt
+
+pytest==9.1.1
+# starlette's TestClient in fastapi 0.104 passes app= to httpx.Client, which
+# httpx removed in 0.28. Pin below that.
+httpx<0.28

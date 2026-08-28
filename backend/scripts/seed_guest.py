@@ -22,8 +22,10 @@ import random
 from datetime import date, timedelta
 
 from app.core.security import get_password_hash
+from app.db.models.capture import Capture, ProcessingStatus
 from app.db.models.entry import Entry
 from app.db.models.entry_tag import entry_tags
+from app.db.models.interpretation import Interpretation
 from app.db.models.project import Project
 from app.db.models.tag import Tag
 from app.db.models.user import User
@@ -43,6 +45,17 @@ PROJECTS = [
 TAGS = [
     "feature", "bugfix", "refactor", "testing", "docs",
     "deploy", "debugging", "planning", "reading", "design",
+]
+
+# Unprocessed captures so the Inbox has something to show. Deliberately messy
+# and unstructured -- that is what a real quick capture looks like.
+CAPTURES = [
+    ("still getting logged out after leaving the tab open overnight -- refresh token?", "desktop"),
+    ("idea: let projects link to a github repo so the dashboard can show recent PRs", "desktop"),
+    ("ask about the rate limit on the tour search endpoint before we ship", "mobile"),
+    ("blocked on the staging db creds, nobody seems to own them", "mobile"),
+    ("that N+1 in the calendar query is going to bite us at 10k entries", "desktop"),
+    ("remember to write up why we went with capture-first instead of a form", "voice"),
 ]
 
 # (title, body, looking_ahead, tags, mood_bias) -- mood_bias nudges the day's
@@ -88,7 +101,15 @@ def main() -> None:
             db.add(user)
             db.flush()
 
-        # Wipe prior demo content. entry_tags first: it has no cascade.
+        # Wipe prior demo content. Interpretations and entry_tags go first:
+        # both reference rows we are about to delete and neither cascades.
+        capture_ids = [c.id for c in db.query(Capture.id).filter(Capture.user_id == user.id).all()]
+        if capture_ids:
+            db.query(Interpretation).filter(
+                Interpretation.capture_id.in_(capture_ids)
+            ).delete(synchronize_session=False)
+        db.query(Capture).filter(Capture.user_id == user.id).delete(synchronize_session=False)
+
         entry_ids = [e.id for e in db.query(Entry.id).filter(Entry.user_id == user.id).all()]
         if entry_ids:
             db.execute(entry_tags.delete().where(entry_tags.c.entry_id.in_(entry_ids)))
@@ -145,6 +166,14 @@ def main() -> None:
                 db.execute(entry_tags.insert().values(entry_id=entry.id, tag_id=by_tag[name].id))
             rows += 1
 
+        for text, source in CAPTURES:
+            db.add(Capture(
+                user_id=user.id,
+                content=text,
+                source=source,
+                processing_status=ProcessingStatus.PENDING,
+            ))
+
         db.commit()
     finally:
         db.close()
@@ -152,6 +181,7 @@ def main() -> None:
     print(f"{'created' if created else 'reset'} {args.email} (password: {GUEST_PASSWORD})")
     print(f"  {rows} entries across {args.days} days, ending today ({today})")
     print(f"  {len(PROJECTS)} projects, {len(TAGS)} tags")
+    print(f"  {len(CAPTURES)} unprocessed captures in the inbox")
 
 
 if __name__ == "__main__":

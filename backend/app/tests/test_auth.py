@@ -19,13 +19,17 @@ def db():
 
 @pytest.fixture
 def test_user(db):
-    user = User(
-        email="test@example.com",
-        password_hash=get_password_hash("testpassword")
-    )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+    # Get-or-create: this fixture is function-scoped but always uses the same
+    # address, so a plain insert collides on users.email the second time it runs.
+    user = db.query(User).filter(User.email == "test@example.com").first()
+    if user is None:
+        user = User(
+            email="test@example.com",
+            password_hash=get_password_hash("testpassword")
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
     return user
 
 

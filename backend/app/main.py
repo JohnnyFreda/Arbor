@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 from app.core.config import settings
-from app.api import auth, entries, projects, tags, calendar, insights
+from app.api import auth, entries, projects, tags, calendar, insights, captures
 
 # Configure logging
 logging.basicConfig(
@@ -36,6 +36,7 @@ app.include_router(projects.router, prefix="/api/v1/projects", tags=["projects"]
 app.include_router(tags.router, prefix="/api/v1/tags", tags=["tags"])
 app.include_router(calendar.router, prefix="/api/v1/calendar", tags=["calendar"])
 app.include_router(insights.router, prefix="/api/v1/insights", tags=["insights"])
+app.include_router(captures.router, prefix="/api/v1/captures", tags=["captures"])
 
 
 @app.get("/")

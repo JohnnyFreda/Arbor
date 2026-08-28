@@ -14,10 +14,20 @@ user_id
 content
 created_at
 source               # desktop | mobile | voice | other
-processing_status
+processing_status    # pending | processing | interpreted | failed | skipped
+client_token         # optional client-supplied idempotency key
 ```
 
 The original `content` should remain immutable or versioned rather than silently overwritten by AI.
+
+`processing_status` tracks whether the model ran, not what the user decided about
+the result. The user's decision lives on `Interpretation.status`. Keeping the two
+apart is what makes "interpretation failed" distinguishable from "user dismissed it",
+and `failed` is what allows a capture to be retried rather than silently lost.
+
+`client_token` is unique per user and exists so a retried submission — dictation
+over bad mobile signal, a double-tapped button — resolves to the existing capture
+instead of creating a second one. Implemented in `backend/app/db/models/capture.py`.
 
 ## Interpretation
 
@@ -112,6 +122,20 @@ risk_constraints
 ```
 
 First-party skills may initially live in code or versioned Markdown rather than the database.
+
+## Implementation status
+
+Capture and Interpretation exist in the backend as of migration `b7c2d914e83a`.
+Interpretation is written by the interpreter seam in
+`backend/app/services/interpretation.py`, which currently returns no interpreter —
+captures land in `skipped` until a provider is configured.
+
+The remaining entities on this page are still conceptual.
+
+There is deliberately no Task entity yet. `roadmap/mvp.md` says accepted
+interpretations become structured work, but where an accepted `task` or `blocker`
+lands is an open decision — a new Task model, an Entry, or resolved state on the
+capture itself. That decision needs an ADR before the inbox accept flow is built.
 
 ## AgentRun
 
