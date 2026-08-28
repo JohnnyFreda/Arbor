@@ -121,7 +121,13 @@ def run_interpretation(capture_id: int) -> None:
             return
 
         try:
-            _store_proposal(db, capture, proposal, getattr(interpreter, "name", None))
+            _store_proposal(
+                db,
+                capture,
+                proposal,
+                getattr(interpreter, "name", None),
+                getattr(interpreter, "confidence_is_calibrated", True),
+            )
         except (ValidationError, ValueError):
             logger.exception(
                 "Interpreter returned unusable output for capture %s", capture_id
@@ -150,7 +156,9 @@ def _project_refs(db: Session, user_id: int) -> List[interpretation_service.Proj
     ]
 
 
-def _store_proposal(db: Session, capture: Capture, proposal, model_name) -> None:
+def _store_proposal(
+    db: Session, capture: Capture, proposal, model_name, confidence_is_calibrated=True
+) -> None:
     """Persist a validated proposal alongside its capture."""
     # A suggested project must actually belong to this user. A model that
     # guesses an id from another account should not create a cross-user link.
@@ -175,6 +183,7 @@ def _store_proposal(db: Session, capture: Capture, proposal, model_name) -> None
             confidence=proposal.confidence,
             status=InterpretationStatus.PROPOSED,
             model=model_name,
+            confidence_is_calibrated=confidence_is_calibrated,
         )
     )
     capture.processing_status = ProcessingStatus.INTERPRETED

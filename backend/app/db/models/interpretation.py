@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, Float, DateTime, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, Text, Float, DateTime, ForeignKey
+from sqlalchemy import true as sa_true
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from app.db.base import Base
@@ -53,6 +54,12 @@ class Interpretation(Base):
     status = Column(String, nullable=False, default=InterpretationStatus.PROPOSED)
     # Which model produced this, for provenance when proposals are wrong.
     model = Column(String, nullable=True)
+    # Whether `confidence` above means anything. Small local models emit ~0.9
+    # for everything, including answers they got wrong, so the value is stored
+    # but withheld from the API until a provider earns it. See ADR-008.
+    confidence_is_calibrated = Column(
+        Boolean, nullable=False, default=True, server_default=sa_true()
+    )
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 

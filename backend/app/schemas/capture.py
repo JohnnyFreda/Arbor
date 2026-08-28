@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from datetime import datetime
 from typing import Optional, List, Literal
 
@@ -43,6 +43,25 @@ class InterpretationResponse(BaseModel):
     status: InterpretationStatusLiteral
     model: Optional[str] = None
     created_at: datetime
+
+    # Read from the row and then dropped from the response. Clients are not
+    # asked to decide whether a number is trustworthy -- an uncalibrated one
+    # simply never reaches them.
+    confidence_is_calibrated: bool = Field(default=True, exclude=True)
+
+    @model_validator(mode="after")
+    def withhold_uncalibrated_confidence(self):
+        """Confidence stays a stored value until the provider earns it.
+
+        A small local model emits ~0.9 for everything, including answers it got
+        wrong. Rendering that as a percentage would put a fabricated certainty
+        in the one place the product asks to be trusted, so it is not sent at
+        all. The value stays in the database, which is what any future
+        calibration work will need.
+        """
+        if not self.confidence_is_calibrated:
+            self.confidence = None
+        return self
 
     class Config:
         from_attributes = True

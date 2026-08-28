@@ -358,3 +358,36 @@ def test_interpreter_is_offered_only_the_users_own_projects(
 
     names = {p.name for p in stub.seen_projects}
     assert names == {"My Project"}
+
+
+def test_local_provider_confidence_does_not_reach_the_client(
+    auth_headers, monkeypatch, db
+):
+    """End to end: an uncalibrated provider's number is stored but not served."""
+    from app.db.models.interpretation import Interpretation
+
+    class _LocalStub:
+        name = "qwen2.5:3b"
+        confidence_is_calibrated = False
+
+        def interpret(self, content, projects=()):
+            return ProposedInterpretation(type="note", confidence=0.9)
+
+    monkeypatch.setattr(interpretation_service, "get_interpreter", lambda: _LocalStub())
+
+    capture_id = client.post(
+        "/api/v1/captures", json={"content": "local run"}, headers=auth_headers
+    ).json()["id"]
+
+    served = client.get(
+        f"/api/v1/captures/{capture_id}", headers=auth_headers
+    ).json()["interpretation"]
+    assert served["confidence"] is None
+    assert served["model"] == "qwen2.5:3b"
+
+    stored = (
+        db.query(Interpretation).filter(Interpretation.capture_id == capture_id).one()
+    )
+    # Withheld from the response, still on the row.
+    assert stored.confidence == 0.9
+    assert stored.confidence_is_calibrated is False

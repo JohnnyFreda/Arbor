@@ -102,12 +102,15 @@ Positive:
 
 Negative:
 
-- **Confidence from a small model is not meaningful and must not be displayed as one.**
-  Measured range was 0.80–1.00, including 0.90 on a capture it classified wrongly.
-  Confidently wrong is worse than uncertain, and the inbox currently renders confidence as
-  a percentage specifically to surface ambiguity. That display must be suppressed or
-  relabelled when the provider is local, or it becomes a lie in the one place the product
-  is asking to be trusted.
+- **Confidence from a small model is not meaningful.** Measured range was 0.80–1.00,
+  including 0.90 on a capture it classified wrongly. Confidently wrong is worse than
+  uncertain, and the inbox renders confidence as a percentage specifically to surface
+  ambiguity — so an uncalibrated number there is a lie in the one place the product asks
+  to be trusted. Resolved by withholding it: `interpretations.confidence_is_calibrated`
+  records at write time whether the producing provider had earned it, and the API omits
+  `confidence` entirely when it has not. The value stays on the row, because calibrating
+  anything later needs it. Clients are never asked to judge whether a number is
+  trustworthy.
 - **Project association does not work well from a small model.** It either assigned the
   wrong project or abstained on every capture depending on prompt wording. This is likely
   the wrong job for a language model at all: "tour search endpoint" maps to Tourify by
@@ -140,7 +143,11 @@ this design depends on.
 
 ## Follow-up work
 
-- Suppress or relabel the confidence display when the provider is local.
+Done: confidence is withheld from the API until the provider earns it
+(`d5a90c1f7b42`).
+
+Outstanding:
+
 - Move project association out of the model and into lexical matching against project names
   and descriptions, for every provider.
 - Re-run this measurement against Claude on the same nine captures. The local numbers have

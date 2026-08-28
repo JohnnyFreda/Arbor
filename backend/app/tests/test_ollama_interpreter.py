@@ -238,3 +238,31 @@ def test_ollama_without_a_model_is_not_an_interpreter(monkeypatch):
     monkeypatch.setattr(settings, "INTERPRETER_PROVIDER", "ollama")
     monkeypatch.setattr(settings, "OLLAMA_MODEL", "")
     assert get_interpreter() is None
+
+
+# --- confidence never reaches a client until it is earned ------------------
+
+
+def test_uncalibrated_confidence_is_withheld_from_the_api():
+    """Stored, not sent. See ADR-008.
+
+    The value is kept because calibrating anything later needs it. It is
+    withheld because rendering ~0.9 from a model that says ~0.9 to everything
+    would put a fabricated certainty in the UI element that exists to surface
+    doubt.
+    """
+    from datetime import datetime
+    from app.schemas.capture import InterpretationResponse
+
+    row = dict(
+        id=1, capture_id=1, type="task", status="proposed",
+        created_at=datetime.now(), confidence=0.9,
+    )
+
+    calibrated = InterpretationResponse(**row, confidence_is_calibrated=True)
+    assert calibrated.model_dump()["confidence"] == 0.9
+
+    local = InterpretationResponse(**row, confidence_is_calibrated=False)
+    assert local.model_dump()["confidence"] is None
+    # The flag itself is an implementation detail, not part of the contract.
+    assert "confidence_is_calibrated" not in local.model_dump()
