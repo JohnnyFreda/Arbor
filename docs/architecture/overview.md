@@ -2,7 +2,7 @@
 
 ## Current direction
 
-DevDiary should evolve incrementally from its existing React/TypeScript frontend, FastAPI/Python backend, and PostgreSQL persistence rather than being rewritten as a new platform.
+Arbor should evolve incrementally from its existing React/TypeScript frontend, FastAPI/Python backend, and PostgreSQL persistence rather than being rewritten as a new platform.
 
 The architecture should support the MVP directly while leaving room for future context sources, skills, and MCP tools.
 

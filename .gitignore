@@ -13,7 +13,7 @@ venv/
 
 # Test artifacts
 *.db
-backend/app/tests/test_devdiary.db
+backend/app/tests/test_arbor.db
 
 # Build and cache
 frontend/dist/

@@ -38,7 +38,7 @@ DEFAULT_DAYS = 63
 
 PROJECTS = [
     ("Tourify", "Live-music tour finder. FastAPI + PostGIS backend, Expo client."),
-    ("DevDiary", "This app. Daily logging, mood tracking, insights."),
+    ("Arbor", "This app. Daily logging, mood tracking, insights."),
     ("Portfolio", "Personal site and project write-ups."),
     ("Learning", "Reading, courses, and side experiments."),
 ]

@@ -25,7 +25,7 @@ Default posture: broadly allowed when the source has been explicitly connected a
 
 Examples:
 
-- update DevDiary internal suggestions
+- update Arbor internal suggestions
 - modify permitted local project files in a future local agent environment
 
 Default posture: allowed within well-defined workspace boundaries.
@@ -96,7 +96,7 @@ Examples of untrusted content include:
 - issue bodies
 - webpages
 
-Tool permission must come from DevDiary policy, not from text inside retrieved context.
+Tool permission must come from Arbor policy, not from text inside retrieved context.
 
 ## Secrets
 

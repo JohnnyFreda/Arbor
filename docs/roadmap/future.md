@@ -2,7 +2,7 @@
 
 ## MCP capability layer
 
-Allow users to connect MCP servers and expose their tools to DevDiary under a common permission model.
+Allow users to connect MCP servers and expose their tools to Arbor under a common permission model.
 
 MCP should expand capability without becoming the product's identity.
 

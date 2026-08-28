@@ -15,7 +15,7 @@ logging.basicConfig(
 
 
 app = FastAPI(
-    title="Dev Diary API",
+    title="Arbor API",
     description="A full-stack developer diary application",
     version="1.0.0"
 )
@@ -46,7 +46,7 @@ app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["tasks"])
 
 @app.get("/")
 async def root():
-    return {"message": "Dev Diary API"}
+    return {"message": "Arbor API"}
 
 
 @app.get("/health")

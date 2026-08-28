@@ -84,7 +84,7 @@ The packet should exclude unrelated Slack conversations, unrelated projects, and
 
 User capture:
 
-> I still get logged out after leaving DevDiary open overnight. I think it is refresh-token related.
+> I still get logged out after leaving Arbor open overnight. I think it is refresh-token related.
 
 Potential packet:
 
@@ -93,7 +93,7 @@ Capture
 - current user report
 
 Project
-- DevDiary authentication notes
+- Arbor authentication notes
 
 ClickUp
 - existing auth timeout task

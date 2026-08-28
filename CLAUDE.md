@@ -1,6 +1,6 @@
-# DevDiary
+# Arbor
 
-DevDiary is a developer operating workspace that turns unstructured human thought and fragmented development context into structured, actionable work.
+Arbor is a developer operating workspace that turns unstructured human thought and fragmented development context into structured, actionable work.
 
 It grew out of a developer journal, and that v1 code is what currently ships: entries,
 projects, tags, calendar, insights, and auth. The workspace concepts described in `docs/`

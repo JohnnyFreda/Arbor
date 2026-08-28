@@ -1,6 +1,6 @@
-# Dev Diary Frontend
+# Arbor Frontend
 
-React + TypeScript frontend for the Dev Diary application.
+React + TypeScript frontend for the Arbor application.
 
 ## Setup
 

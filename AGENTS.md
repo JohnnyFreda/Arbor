@@ -1,6 +1,6 @@
 # Agent Operating Rules
 
-This file defines default rules for AI agents working in the DevDiary repository.
+This file defines default rules for AI agents working in the Arbor repository.
 
 ## Allowed without approval
 

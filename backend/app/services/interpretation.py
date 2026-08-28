@@ -64,7 +64,7 @@ class _InterpretationDraft(BaseModel):
 
 
 SYSTEM_PROMPT = """\
-You are the interpretation step in DevDiary, a developer workspace. A developer \
+You are the interpretation step in Arbor, a developer workspace. A developer \
 captured an unstructured thought. Propose structure for it.
 
 Classify the capture as exactly one type:

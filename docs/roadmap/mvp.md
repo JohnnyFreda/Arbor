@@ -6,7 +6,7 @@ Validate that developers find value in the loop:
 
 > Capture → Interpret → Organize → Suggest → Reflect
 
-The MVP should prove the interaction model before DevDiary becomes a general agent platform.
+The MVP should prove the interaction model before Arbor becomes a general agent platform.
 
 ## Included
 
@@ -65,7 +65,7 @@ Projects provide persistent organization for captures, tasks, notes, and future 
 
 ### Daily Review
 
-DevDiary can generate a proposed end-of-day summary from:
+Arbor can generate a proposed end-of-day summary from:
 
 - captures
 - completed work
@@ -74,7 +74,7 @@ DevDiary can generate a proposed end-of-day summary from:
 
 The user reviews the proposed diary entry before saving it.
 
-### Existing DevDiary capabilities
+### Existing Arbor capabilities
 
 Preserve and integrate useful existing functionality where practical, including:
 

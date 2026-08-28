@@ -97,20 +97,20 @@ Normalize:
 
 MCP is a future capability layer.
 
-DevDiary should be able to map MCP-exposed tools into its internal capability and permission model.
+Arbor should be able to map MCP-exposed tools into its internal capability and permission model.
 
-Do not let arbitrary MCP tool descriptions bypass DevDiary's own permission policies.
+Do not let arbitrary MCP tool descriptions bypass Arbor's own permission policies.
 
 ## Source mapping
 
 A Project may eventually map to selected external sources, such as:
 
 ```text
-Project: DevDiary
-- GitHub: johnnyfreda/devdiary
-- ClickUp: DevDiary list
-- Slack: #devdiary
-- Meetings: DevDiary project collection
+Project: Arbor
+- GitHub: johnnyfreda/arbor
+- ClickUp: Arbor list
+- Slack: #arbor
+- Meetings: Arbor project collection
 ```
 
 Explicit project/source mapping can improve retrieval quality and privacy.

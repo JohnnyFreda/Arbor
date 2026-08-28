@@ -17,7 +17,7 @@ def _parse_cors_origins(value: str) -> List[str]:
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = "postgresql://user:password@localhost/dev_diary"
+    DATABASE_URL: str = "postgresql://user:password@localhost/arbor"
     
     # JWT
     SECRET_KEY: str = "your-secret-key-change-in-production"

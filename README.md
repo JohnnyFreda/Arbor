@@ -1,4 +1,4 @@
-# DevDiary
+# Arbor
 
 A developer operating workspace — capture unstructured thought, connect the context scattered across your work systems, and turn both into structured, actionable work.
 
@@ -6,11 +6,11 @@ The core loop:
 
 > Capture → Understand → Plan → Execute → Reflect
 
-DevDiary began as a developer journal and is expanding into a persistent workspace and context layer that supports both human reflection and agent-assisted work. See [`docs/product/vision.md`](docs/product/vision.md) for the full picture and [ADR-005](docs/decisions/005-diary-to-workspace.md) for why the scope changed.
+Arbor began as a developer journal and is expanding into a persistent workspace and context layer that supports both human reflection and agent-assisted work. See [`docs/product/vision.md`](docs/product/vision.md) for the full picture and [ADR-005](docs/decisions/005-diary-to-workspace.md) for why the scope changed.
 
 ## Live Demo
 
-**[Try the app →](https://dev-diary-psi.vercel.app)**
+**[Try the app →](https://arbor-psi.vercel.app)**
 
 Use **Continue as guest** to explore without signing up. The demo may take a moment to load after inactivity (free-tier backend spin-up).
 
@@ -36,7 +36,7 @@ The diary domain is retained rather than replaced. Diary entries model reflectio
 
 | | |
 |---|---|
-| [Vision](docs/product/vision.md) | What DevDiary is and why it exists |
+| [Vision](docs/product/vision.md) | What Arbor is and why it exists |
 | [Principles](docs/product/principles.md) | Product and UX rules |
 | [Terminology](docs/product/terminology.md) | Canonical domain language |
 | [MVP](docs/roadmap/mvp.md) | Current product boundary |
@@ -174,7 +174,7 @@ The live demo uses a fully free stack:
 | Backend | [Render](https://render.com) | Web Service, root: `backend`. Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Python 3.12 (`runtime.txt`). |
 | Database | [Neon](https://neon.tech) | PostgreSQL. Connection string as `DATABASE_URL` on Render. |
 
-**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://dev-diary-psi.vercel.app`).
+**Backend env (Render):** `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` (your Vercel frontend URL, e.g. `https://arbor-psi.vercel.app`).
 
 **Frontend env (Vercel):** `VITE_API_URL` = your Render backend URL only (no path, no trailing slash).
 

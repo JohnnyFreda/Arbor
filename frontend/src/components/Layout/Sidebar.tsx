@@ -46,7 +46,7 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
               : 'max-w-[200px] opacity-100'
           }`}
         >
-          Dev Diary
+          Arbor
         </h1>
         <button
           onClick={onToggle}

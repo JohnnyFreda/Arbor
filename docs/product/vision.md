@@ -2,7 +2,7 @@
 
 ## Summary
 
-DevDiary is evolving from a developer journal into a developer operating workspace.
+Arbor is evolving from a developer journal into a developer operating workspace.
 
 It helps developers capture what they are thinking, understand what their work systems know, and turn both into structured, actionable context for themselves and AI agents.
 
@@ -37,11 +37,11 @@ At the same time, developers have valuable unstructured thoughts while working o
 
 Traditional productivity tools ask the developer to manually normalize this information into fields, tags, tasks, projects, and due dates.
 
-DevDiary should instead use AI as the normalization layer between messy human thought and structured computer state.
+Arbor should instead use AI as the normalization layer between messy human thought and structured computer state.
 
 ## Product promise
 
-DevDiary should let a developer:
+Arbor should let a developer:
 
 1. Capture a thought with almost no friction.
 2. Preserve the original thought exactly.
@@ -53,7 +53,7 @@ DevDiary should let a developer:
 
 ## Positioning
 
-DevDiary is not primarily:
+Arbor is not primarily:
 
 - a chat application
 - a generic todo list
@@ -65,7 +65,7 @@ It is a persistent developer workspace and context layer that supports both huma
 
 ## Long-term vision
 
-DevDiary becomes a control surface for developer work:
+Arbor becomes a control surface for developer work:
 
 - human thoughts enter through capture and dictation
 - external work context enters through integrations and MCP
@@ -73,6 +73,6 @@ DevDiary becomes a control surface for developer work:
 - skills define repeatable agent workflows
 - permissions constrain blast radius
 - agents can investigate, suggest, and eventually act
-- DevDiary maintains a durable record of decisions, context, and outcomes
+- Arbor maintains a durable record of decisions, context, and outcomes
 
 The result is a living diary of how software was actually built, not just a log of what someone remembered to write down afterward.

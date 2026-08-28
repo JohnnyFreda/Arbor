@@ -1,4 +1,4 @@
-# DevDiary Documentation
+# Arbor Documentation
 
 This directory is the source of truth for product intent, roadmap, architecture, and durable engineering decisions.
 
@@ -6,7 +6,7 @@ Start with `product/vision.md`, then `roadmap/mvp.md` for the current boundary.
 
 ## Product
 
-- `product/vision.md` — what DevDiary is and why it exists
+- `product/vision.md` — what Arbor is and why it exists
 - `product/principles.md` — product and UX rules
 - `product/terminology.md` — canonical language and domain concepts
 - `product/user-flows.md` — primary user journeys
@@ -32,7 +32,7 @@ Architecture Decision Records (ADRs) live in `decisions/`.
 
 Use an ADR when a decision is likely to matter months later and a future developer or agent could reasonably ask, "Why was this built this way?"
 
-- `decisions/005-diary-to-workspace.md` — why DevDiary expanded beyond a journal. Read this first for background.
+- `decisions/005-diary-to-workspace.md` — why Arbor expanded beyond a journal. Read this first for background.
 - `decisions/006-accepted-work-becomes-tasks.md` — where accepted interpretations land.
 
 ## Development

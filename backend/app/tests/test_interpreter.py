@@ -147,13 +147,13 @@ def test_api_errors_propagate():
 def test_unknown_project_id_is_dropped():
     """A model may name a project that does not exist, or is not the user's."""
     interpreter, _ = _interpreter(_response(_draft_json(suggested_project_id=999)))
-    proposal = interpreter.interpret("x", [ProjectRef(id=1, name="DevDiary")])
+    proposal = interpreter.interpret("x", [ProjectRef(id=1, name="Arbor")])
     assert proposal.suggested_project_id is None
 
 
 def test_known_project_id_is_kept():
     interpreter, _ = _interpreter(_response(_draft_json(suggested_project_id=1)))
-    proposal = interpreter.interpret("x", [ProjectRef(id=1, name="DevDiary")])
+    proposal = interpreter.interpret("x", [ProjectRef(id=1, name="Arbor")])
     assert proposal.suggested_project_id == 1
 
 

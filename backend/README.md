@@ -1,6 +1,6 @@
-# Dev Diary Backend
+# Arbor Backend
 
-FastAPI backend for the Dev Diary application.
+FastAPI backend for the Arbor application.
 
 ## Setup
 

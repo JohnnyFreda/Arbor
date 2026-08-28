@@ -9,7 +9,7 @@ import time in app.db.session) and then asserts the override actually took.
 import os
 import pathlib
 
-TEST_DB_PATH = pathlib.Path(__file__).parent / "test_devdiary.db"
+TEST_DB_PATH = pathlib.Path(__file__).parent / "test_arbor.db"
 
 # Must happen before anything imports app.core.config. Environment variables
 # take precedence over .env in pydantic-settings.

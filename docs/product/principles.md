@@ -40,7 +40,7 @@ External writes, sensitive access, destructive actions, and production changes r
 
 ## 6. Compress information
 
-DevDiary should reduce cognitive load.
+Arbor should reduce cognitive load.
 
 Prefer concise summaries, priorities, and relevant context over generating more content for users to consume.
 
