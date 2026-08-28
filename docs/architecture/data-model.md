@@ -91,6 +91,40 @@ created_at
 updated_at
 ```
 
+## Task
+
+Actionable work accepted out of the inbox. Created only for the actionable
+interpretation types — `task` and `blocker`. Accepting a thought, idea, or note
+creates no Task: those have no lifecycle, and the Capture plus its accepted
+Interpretation already is the note. See ADR-006.
+
+Suggested fields:
+
+```text
+id
+user_id
+project_id                # nullable
+type                      # task | blocker
+title
+notes                     # nullable
+status                    # open | done | dropped
+priority                  # nullable
+due_date                  # nullable, never inferred by a model
+source_capture_id         # nullable
+source_interpretation_id  # nullable
+created_at
+updated_at
+completed_at              # nullable
+```
+
+Both provenance links are nullable and both are kept. `source_capture_id` is the
+durable link back to the original thought and survives re-interpretation;
+`source_interpretation_id` records which proposal the user actually accepted, and
+is null when the user structured the work themselves after dismissing it.
+
+Deliberately not a task manager: no subtasks, dependencies, recurrence, assignees,
+or external-system mapping. A ClickUp task is a Context Item, not a Task.
+
 ## ContextPacket
 
 A Context Packet may be persisted for reproducibility or assembled ephemerally.
@@ -132,10 +166,10 @@ captures land in `skipped` until a provider is configured.
 
 The remaining entities on this page are still conceptual.
 
-There is no Task entity yet. Where an accepted `task` or `blocker` lands is
-addressed by [ADR-006](../decisions/006-accepted-work-becomes-tasks.md), which
-proposes a minimal Task entity for actionable types only. That ADR is still
-**Proposed** — the inbox accept flow should not be built until it is settled.
+Task exists as of migration `c3f81a2b57d9`, per
+[ADR-006](../decisions/006-accepted-work-becomes-tasks.md).
+
+The remaining entities on this page are still conceptual.
 
 ## AgentRun
 

@@ -5,6 +5,7 @@ from app.db.models.tag import Tag
 from app.db.models.entry_tag import entry_tags
 from app.db.models.capture import Capture
 from app.db.models.interpretation import Interpretation
+from app.db.models.task import Task
 
 __all__ = [
     "User",
@@ -14,4 +15,5 @@ __all__ = [
     "entry_tags",
     "Capture",
     "Interpretation",
+    "Task",
 ]

@@ -1,6 +1,6 @@
 # ADR-006: Accepted Actionable Interpretations Become Tasks
 
-Status: Proposed
+Status: Accepted
 
 ## Context
 
@@ -101,8 +101,23 @@ need status tracking, revisit this — it is the natural successor to this decis
 
 ## Follow-up work
 
-- Add the `Task` model, migration, and `PATCH /api/v1/interpretations/{id}` for
-  accept, edit, and dismiss.
-- Accepting an actionable interpretation should create exactly one Task; accepting
-  twice must not create two.
-- Update `architecture/data-model.md` once implemented.
+Implemented in migration `c3f81a2b57d9`. Accept, edit, and dismiss live at
+`PATCH /api/v1/interpretations/{id}`; tasks are read and updated under
+`/api/v1/tasks`.
+
+Two behaviours settled during implementation and worth recording here:
+
+- Accepting is reversible. Dismissing a proposal that already produced a Task
+  drops that Task, and re-accepting revives it. A Task already marked `done` is
+  left alone — changing your mind about a suggestion should not erase work that
+  was actually finished.
+- `edited` is affirmative, not a third state. It applies the user's changes and
+  then behaves like `accepted`, so editing a `note` up to a `task` creates one and
+  editing a `task` down to a `note` withdraws it.
+
+Still open:
+
+- No endpoint creates a Task directly. The inbox is the only path in, which keeps
+  the capture-first loop primary. Morning planning (`roadmap/fast-follow.md`) will
+  need one.
+- No frontend.
