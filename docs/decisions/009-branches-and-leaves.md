@@ -1,6 +1,6 @@
 # ADR-009: Branches and Leaves
 
-Status: Proposed
+Status: Accepted
 
 ## Context
 

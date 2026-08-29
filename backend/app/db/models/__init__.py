@@ -6,6 +6,14 @@ from app.db.models.entry_tag import entry_tags
 from app.db.models.capture import Capture
 from app.db.models.interpretation import Interpretation
 from app.db.models.task import Task
+from app.db.models.leaf import Leaf
+from app.db.models.branch import Branch
+from app.db.models.branch_links import (
+    branch_leaves,
+    branch_captures,
+    branch_tasks,
+    branch_entries,
+)
 
 __all__ = [
     "User",
@@ -16,4 +24,10 @@ __all__ = [
     "Capture",
     "Interpretation",
     "Task",
+    "Leaf",
+    "Branch",
+    "branch_leaves",
+    "branch_captures",
+    "branch_tasks",
+    "branch_entries",
 ]

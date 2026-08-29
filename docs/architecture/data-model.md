@@ -125,6 +125,30 @@ is null when the user structured the work themselves after dismissing it.
 Deliberately not a task manager: no subtasks, dependencies, recurrence, assignees,
 or external-system mapping. A ClickUp task is a Context Item, not a Task.
 
+## Branch and Leaf
+
+Added by [ADR-009](../decisions/009-branches-and-leaves.md), in migration
+`e1c4b8a20f37`.
+
+A **Branch** is a line of work — "GA F201 refactor", not "Tourify". Its `project_id`
+is nullable: a branch may span projects, or predate knowing which one it belongs to.
+
+A **Leaf** is a normalized piece of evidence from a foreign system, with a `url` back
+to the original. **A Leaf is what this document calls a Context Item above**, renamed
+for the model; the older sections keep the old word, and that is deliberate rather
+than an oversight.
+
+Foreign evidence is normalized into leaves. Captures, tasks and entries are *linked*
+to a branch by foreign key, never copied into one — duplicating the user's own words
+gives two records that can drift, against Principle 2.
+
+A branch never owns what it links to. Deleting a branch removes the links and nothing
+else.
+
+Note the name. A git branch is called a **ref** everywhere in Arbor, following
+GitHub's own API, which uses `head.ref` and `base.ref`. `branch` unqualified always
+means the Arbor entity.
+
 ## ContextPacket
 
 A Context Packet may be persisted for reproducibility or assembled ephemerally.
