@@ -61,7 +61,7 @@ type                # commit | pull_request | issue | message | task | decision 
 title               # nullable
 content
 author              # nullable
-url                 # the fruit; see below
+url                 # link back to the source; see below
 occurred_at
 metadata_json
 created_at
@@ -72,18 +72,16 @@ concept, renamed for the metaphor. Those documents keep the old name, as ADR-007
 established for the product rename: they record what was decided when, and rewriting
 them would invent a history where it was always called a Leaf.
 
-### Fruit is a column, not a table
+### The link back to the source lives on the leaf
 
-Fruit is the link on a leaf back to its source — the thing you pick. It is the `url`
-field above and a first-class idea in the interface, where following it is the payoff
-for the branch having accumulated anything at all.
+Following a leaf to the thing it came from — the actual Slack message, the actual pull
+request — is the payoff for a branch having accumulated anything. It matters in the
+interface, and it is still just the `url` column above.
 
-It is deliberately **not** an entity. The metaphor names three things and the schema
-needs two, and writing that down here is the point: without it, someone reasonably
-infers a `fruits` table from the product language and builds one.
-
-If a leaf ever needs several links — a meeting with both a transcript and a recording
-— fruit becomes a table then, on evidence, not now on symmetry.
+It gets no name and no entity of its own. Naming it would invite a table for it, and
+one leaf has one source. If that ever stops being true — a meeting with both a
+transcript and a recording — it becomes a table then, on evidence rather than on
+symmetry.
 
 ### Normalize what is foreign, link what is native
 
@@ -149,7 +147,9 @@ one retrieval path. Rejected because it duplicates the user's own words, and Pri
 makes the raw capture the durable record. Foreign data earns normalization; native data
 does not.
 
-**Fruit as its own entity.** Rejected as symmetry rather than need. See above.
+**Giving the source link its own name and entity.** The metaphor extends naturally to
+a third thing, and that was the reason to be suspicious of it. One leaf has one source
+link; a name would have been decoration that later justified a table.
 
 ## Follow-up work
 
