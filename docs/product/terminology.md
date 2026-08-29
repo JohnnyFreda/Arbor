@@ -51,6 +51,30 @@ A Context Packet may contain:
 - task state
 - selected repository metadata
 
+## Branch
+
+A line of work. "GA F201 refactor", not "Tourify".
+
+Distinct from a Project, which is where work lives rather than what it is about. A
+branch may span projects, or exist before it is clear which one it belongs to.
+
+A *git* branch is called a **ref** everywhere in Arbor, following GitHub's own API.
+`branch` unqualified always means this. See [ADR-009](../decisions/009-branches-and-leaves.md).
+
+## Leaf
+
+A normalized piece of evidence from an outside system, hanging off a branch — a Slack
+message, a pull request, a meeting decision — with a link back to the original.
+
+A Leaf is what this document calls a **Context Item** below. Same concept, renamed for
+the model; the older sections keep the old word deliberately.
+
+## Fallen leaf
+
+A leaf, or a capture, that could not be placed on a branch. The inbox holds these and
+nothing else: things are sorted on arrival, and the inbox is where that fails rather
+than where everything starts. See [ADR-011](../decisions/011-fallen-leaves.md).
+
 ## Project
 
 A persistent workspace grouping related captures, tasks, context, activity, and integrations.

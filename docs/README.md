@@ -38,6 +38,7 @@ Use an ADR when a decision is likely to matter months later and a future develop
 - `decisions/008-local-interpretation.md` — interpretation must be able to run locally, with the measurements behind it.
 - `decisions/009-branches-and-leaves.md` — grouping work into branches, with evidence as leaves.
 - `decisions/010-not-a-task-board.md` — the boundary. Branches move because evidence arrives, not because someone maintains them.
+- `decisions/011-fallen-leaves.md` — things are sorted on arrival; the inbox is where that fails.
 
 ## Development
 
