@@ -36,6 +36,15 @@ class Branch(Base):
     status = Column(String, nullable=False, default=BranchStatus.OPEN, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+    # When something last *happened* to this branch, which is not when the row
+    # was last edited. Renaming a branch is not activity; attaching evidence
+    # is. Attaching writes to a join table, so updated_at never sees it.
+    #
+    # This is what branches are ordered by: a branch moves because evidence
+    # arrived, not because someone maintained it. See ADR-010.
+    last_activity_at = Column(
+        DateTime(timezone=True), server_default=func.now(), index=True
+    )
 
     user = relationship("User", backref="branches")
     project = relationship("Project")

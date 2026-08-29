@@ -6,6 +6,7 @@ takes one call, and never fails for the boring reason that something was
 already attached.
 """
 
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from sqlalchemy import delete, insert, select
@@ -40,7 +41,8 @@ def list_branches(
     query = db.query(Branch).filter(Branch.user_id == user_id)
     if status:
         query = query.filter(Branch.status == status)
-    return query.order_by(Branch.updated_at.desc(), Branch.id.desc()).all()
+    # By activity, not by edit: the branches that moved are the ones to show.
+    return query.order_by(Branch.last_activity_at.desc(), Branch.id.desc()).all()
 
 
 def get_branch(db: Session, user_id: int, branch_id: int) -> Optional[Branch]:
@@ -113,6 +115,9 @@ def attach(db: Session, branch: Branch, kind: str, item_id: int) -> bool:
         return False
 
     db.execute(insert(table).values(branch_id=branch.id, **{column: item_id}))
+    # The branch moved. Nothing else records that -- the write went to a join
+    # table, so updated_at is untouched.
+    branch.last_activity_at = datetime.now(timezone.utc).replace(tzinfo=None)
     db.commit()
     return True
 

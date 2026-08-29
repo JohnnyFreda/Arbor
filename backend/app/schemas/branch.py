@@ -57,6 +57,8 @@ class BranchResponse(BaseModel):
     status: BranchStatusLiteral
     created_at: datetime
     updated_at: datetime
+    #: When evidence last arrived, which is what branches are ordered by.
+    last_activity_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True

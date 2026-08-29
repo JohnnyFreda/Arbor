@@ -242,3 +242,66 @@ def test_branches_are_scoped_to_their_owner(owner, make_user):
 def test_branch_endpoints_require_authentication():
     assert client.get("/api/v1/branches").status_code == 401
     assert client.post("/api/v1/branches", json={"title": "x"}).status_code == 401
+
+
+# --- branches move because evidence arrives, not because they are edited ---
+
+
+def test_attaching_records_activity(owner, db):
+    """A branch moves when something happens to it. See ADR-010."""
+    import time
+
+    branch = _branch(owner["headers"])
+    before = client.get(
+        f"/api/v1/branches/{branch['id']}", headers=owner["headers"]
+    ).json()["last_activity_at"]
+
+    time.sleep(0.01)
+    leaf = _leaf(db, owner["user"].id)
+    _attach(owner["headers"], branch["id"], "leaf", leaf.id)
+
+    after = client.get(
+        f"/api/v1/branches/{branch['id']}", headers=owner["headers"]
+    ).json()["last_activity_at"]
+    assert after > before
+
+
+def test_editing_a_branch_is_not_activity(owner):
+    """Renaming is maintenance. The list must not reward it.
+
+    If editing counted, a branch could be kept at the top of the dashboard by
+    fiddling with it -- which is the board behaviour ADR-010 rules out.
+    """
+    branch = _branch(owner["headers"])
+    before = client.get(
+        f"/api/v1/branches/{branch['id']}", headers=owner["headers"]
+    ).json()["last_activity_at"]
+
+    client.patch(
+        f"/api/v1/branches/{branch['id']}",
+        json={"title": "Renamed"}, headers=owner["headers"],
+    )
+
+    after = client.get(
+        f"/api/v1/branches/{branch['id']}", headers=owner["headers"]
+    ).json()
+    assert after["title"] == "Renamed"
+    assert after["last_activity_at"] == before
+
+
+def test_branches_are_listed_by_activity(owner, db):
+    """The branch that moved is the branch you see first."""
+    import time
+
+    first = _branch(owner["headers"], "Older")
+    time.sleep(0.01)
+    second = _branch(owner["headers"], "Newer")
+
+    listed = client.get("/api/v1/branches", headers=owner["headers"]).json()
+    assert [b["title"] for b in listed][:2] == ["Newer", "Older"]
+
+    time.sleep(0.01)
+    _attach(owner["headers"], first["id"], "leaf", _leaf(db, owner["user"].id).id)
+
+    listed = client.get("/api/v1/branches", headers=owner["headers"]).json()
+    assert [b["title"] for b in listed][:2] == ["Older", "Newer"]

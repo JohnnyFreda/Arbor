@@ -37,6 +37,7 @@ Use an ADR when a decision is likely to matter months later and a future develop
 - `decisions/007-rename-to-arbor.md` — why the product is called Arbor, and why the ADRs and archive still say DevDiary.
 - `decisions/008-local-interpretation.md` — interpretation must be able to run locally, with the measurements behind it.
 - `decisions/009-branches-and-leaves.md` — grouping work into branches, with evidence as leaves.
+- `decisions/010-not-a-task-board.md` — the boundary. Branches move because evidence arrives, not because someone maintains them.
 
 ## Development
 

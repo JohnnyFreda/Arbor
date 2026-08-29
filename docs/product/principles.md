@@ -62,7 +62,19 @@ Do not build a general agent platform before validating the core user loop.
 
 MCP, skills, and broad integrations are capability layers, not the MVP identity.
 
-## 10. Explain consequential behavior
+## 10. Movement comes from evidence, not from maintenance
+
+The user's main gesture is not moving work between states.
+
+A branch surfaces because something happened to it — a leaf arrived, a capture was
+sorted, and later, an agent finished a job. Not because someone dragged it. Anything
+whose value depends on the user keeping it up to date is a chore the product has
+handed them, and `user-flows.md` already asks the dashboard not to become one.
+
+Finishing something in a single gesture is fine. Columns, custom statuses, assignees,
+estimates and sprint planning are not. See [ADR-010](../decisions/010-not-a-task-board.md).
+
+## 11. Explain consequential behavior
 
 Whenever an agent is about to perform an action with external or irreversible consequences, the user should be able to understand:
 
